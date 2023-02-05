@@ -2,10 +2,10 @@ import { DataTableBody } from '../../types/data-table-body'
 import './data-table-item.style.css'
 
 type Props = {
-  data: DataTableBody[]
+  data: DataTableBody[],
 }
 
-const DataTableItemComponent = ({ data }: Props) => {
+const DataTableItemComponent = ({ data}: Props) => {
   return (
     <>
       {data && data.map((item: DataTableBody) => (

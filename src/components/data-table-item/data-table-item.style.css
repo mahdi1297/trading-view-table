@@ -44,5 +44,8 @@
 thead th:last-child,
 td:last-child {
     border-right: none;
-    /* width: 20% !important; */
+}
+
+.loading-disabled {
+    display: none;
 }

@@ -18,16 +18,34 @@ thead {
 
 thead tr {
     border: 1px solid #e6eaef;
+    cursor: pointer;
 }
 
+thead th:hover {
+    background-color: #e6eaef;
+}
+
+
+
+thead th {
+    color: #6a6d78;
+    position: relative;
+}
+
+thead th {
+    width: 130px;
+    min-width: 130px;
+}
+
+thead th:first-child {
+    width: 270px;
+    text-align: left;
+    border-bottom: 1px solid #e6eaef;
+}
 
 tr {
     display: flex;
     padding: 0 20px;
-}
-
-thead th {
-    color: #6a6d78;
 }
 
 tr th {
@@ -40,17 +58,6 @@ tr th {
     padding: 8px 20px;
     font-weight: 400;
     font-size: 13px;
-}
-
-thead th {
-    width: 130px;
-    min-width: 130px;
-}
-
-thead th:first-child {
-    width: 270px;
-    text-align: left;
-    border-bottom: 1px solid #e6eaef;
 }
 
 tbody td {
@@ -67,4 +74,35 @@ tbody td {
 tbody td:first-child {
     width: 270px;
     text-align: left;
+}
+
+
+.filter-modal-btn {
+    display: none;
+}
+
+thead th:hover .filter-modal-btn {
+    display: flex;
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 40px;
+    height: 100%;
+    background-color: #e6eaef;
+    border-left: 1px solid #d0d3d7;
+    align-items: center;
+    justify-content: center;
+}
+
+.filter-modal-btn:hover {
+    background-color: rgb(238, 238, 238) !important;
+}
+
+svg {
+    font-size: 22px;
+}
+
+
+.active-row {
+    border-bottom: 2px solid #37a6ef;
 }

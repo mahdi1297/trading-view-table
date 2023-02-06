@@ -1,0 +1,31 @@
+.select {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    position: absolute;
+    background-color: #fff;
+    border-radius: 3px;
+    box-shadow: 0 2px 4px #0003;
+    font-size: 13px;
+    line-height: 1;
+    padding: 15px 0;
+    position: absolute;
+    z-index: 99;
+}
+
+.select span {
+    cursor: pointer;
+    display: block;
+    overflow: hidden;
+    padding: 10px 15px;
+    position: relative;
+    text-align: left;
+    text-overflow: ellipsis;
+    transition: color .35s ease, background-color .35s ease;
+    white-space: nowrap;
+    width: 100%;
+}
+
+.select span:hover {
+    background-color: #ccc;
+}

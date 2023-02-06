@@ -5,9 +5,9 @@ type Props = {
   data: DataTableBody[],
 }
 
-const DataTableItemComponent = ({ data}: Props) => {
+const DataTableBodyComponent = ({ data }: Props) => {
   return (
-    <>
+    <tbody>
       {data && data.map((item: DataTableBody) => (
         <tr key={item.id}>
           <td className='item-image'>
@@ -56,8 +56,8 @@ const DataTableItemComponent = ({ data}: Props) => {
           </td>
         </tr>
       ))}
-    </>
+    </tbody>
   )
 }
 
-export default DataTableItemComponent
+export default DataTableBodyComponent

@@ -1,0 +1,27 @@
+.price-modal-body {
+    display: flex;
+}
+
+.price-modal-body p {
+    display: flex;
+    align-items: center;
+}
+
+.price-modal-body p svg {
+    margin-left: 10px;
+    font-size: 15px;
+    transition: all ease-in 0.2s;
+    margin-right: 20px;
+}
+
+.price-modal-body p svg.icon-active {
+    transform: rotateX(180deg);
+}
+
+.price-modal-body p svg.icon-deactive {
+    transform: rotateX(0deg);
+}
+
+.price-modal-body p.disabled {
+    opacity: 70%;
+}

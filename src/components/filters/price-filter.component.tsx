@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { priceSortList } from '../../models/price-sort-list'
 import SelectComponent from '../select/select.component'
 import TitleComponent from '../title/title.component'
 import './style.css'
@@ -20,7 +21,7 @@ const items = [
 
 const PriceFilterComponent = () => {
   const [priceModalValue, setPriceModalValue] = useState<string>(null)
-  const [valueModalValue, setValueModalValue] = useState<string>(null)
+  const [valueModalValue, setValueModalValue] = useState<string>(priceSortList[0].value)
 
   const selectItemHandler = (value: string) => {
     setPriceModalValue(value)
@@ -34,22 +35,24 @@ const PriceFilterComponent = () => {
     <>
       <TitleComponent text="Price" />
 
-      <div className="price-modal-body">
+      <div className="filter-modal-body">
         <div>
           <SelectComponent
             selectList={items}
             selectItemHandler={selectItemHandler}
-            disabled={false}
+            selectedItem={priceModalValue}
           />
         </div>
         <div>
           <SelectComponent
-            selectList={items}
-            selectItemHandler={selectItemHandler}
-            disabled={priceModalValue ? false : true}
+            selectList={priceSortList}
+            selectItemHandler={selectValueHandler}
+            selectedItem={valueModalValue}
           />
         </div>
-        <div></div>
+        <div>
+          {valueModalValue === 'Value' ? <input type="text" /> : <></>}
+        </div>
       </div>
     </>
   )

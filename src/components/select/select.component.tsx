@@ -11,28 +11,28 @@ type SelectList = {
 type Props = {
     selectItemHandler: Function,
     selectList: SelectList[],
-    disabled?: boolean
+    disabled?: boolean,
+    selectedItem: any
 }
 
-const SelectComponent = ({ selectList, selectItemHandler, disabled = false }: Props) => {
+const SelectComponent = ({ selectList, selectItemHandler, disabled = false, selectedItem }: Props) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const [selectedItem, setSelectedItem] = useState<string>(null)
     const [active, setActive] = useState(false);
 
-    const selectRef = useRef<any>();
-
+    const selectRef = useRef<HTMLDivElement>();
 
     useEffect(() => {
         setActive(isModalOpen);
 
         document.addEventListener('mousedown', handleClickOutside);
 
-        return () => document.removeEventListener('mousedown', handleClickOutside);
-
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        }
     }, [isModalOpen]);
 
 
-    const handleClickOutside = (e: Event) => {
+    const handleClickOutside = (e: Event | any) => {
         if (selectRef?.current) {
             if (!selectRef.current.contains(e.target)) {
                 setIsModalOpen(false);
@@ -43,7 +43,6 @@ const SelectComponent = ({ selectList, selectItemHandler, disabled = false }: Pr
     function changeItemHandler(itemValue: string) {
         if (!disabled) {
             closeModalHandler()
-            setSelectedItem(itemValue)
             selectItemHandler(itemValue)
         }
     }
@@ -61,7 +60,7 @@ const SelectComponent = ({ selectList, selectItemHandler, disabled = false }: Pr
 
     return (
         <>
-            <p onClick={openModalHandler} className={titleText === 'Value' ? 'disabled' : 'active'}>
+            <p onClick={openModalHandler} className={`select-title ${titleText === 'Value' ? 'disabled' : 'active'}`}>
                 {titleText}
                 <GoChevronDown className={active ? 'icon-active' : 'icon-deactive'} />
             </p>

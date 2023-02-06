@@ -1,7 +1,77 @@
 import React, { useState } from 'react'
 import { GoSettings } from 'react-icons/go'
+import FilterModalComponent from '../filter-modal/filter-modal.componen';
 import PriceFilterComponent from '../filters/price-filter.component';
+import TechnicalRatingFilterComponent from '../filters/technical-rating-filter.component';
 import './data-table-head.style.css'
+
+const filters = [
+    {
+        id: 1,
+        title: "TICKERS",
+        component: PriceFilterComponent,
+        children: <input type="text" />
+    },
+
+    {
+        id: 2,
+        title: "Price",
+        component: PriceFilterComponent
+    },
+
+    {
+        id: 3,
+        title: "CHG",
+        // component: PriceFilterComponent
+    },
+
+    {
+        id: 4,
+        title: "CHG%",
+        // component: PriceFilterComponent
+    },
+    {
+        id: 5,
+        title: "TECHNICAL RATING",
+        component: TechnicalRatingFilterComponent
+    },
+    {
+        id: 6,
+        title: "VOL",
+        // component: TechnicalRatingFilterComponent
+    },
+    {
+        id: 7,
+        title: "MKT CAP",
+        // component: TechnicalRatingFilterComponent
+    },
+    {
+        id: 8,
+        title: "VOLUME*PRICE",
+        // component: TechnicalRatingFilterComponent
+    },
+    {
+        id: 9,
+        title: "VOLUME*PRICE",
+        // component: TechnicalRatingFilterComponent
+    },
+    {
+        id: 10,
+        title: "P/E",
+        // component: TechnicalRatingFilterComponent
+    },
+    {
+        id: 11,
+        title: "EMPLOYEES",
+        // component: TechnicalRatingFilterComponent
+    },
+    {
+        id: 12,
+        title: "SECTOR",
+        // component: TechnicalRatingFilterComponent
+    },
+
+]
 
 const DataTableHeadComponent = () => {
     const [selectedRow, setSelectedRow] = useState<number>(null);
@@ -20,177 +90,24 @@ const DataTableHeadComponent = () => {
     return (
         <thead>
             <tr>
-                <th className={selectedRow === 1 ? 'active-row' : 'disabled-row'}>
-                    TICKERS
-                    <input type="text" />
-                    <div className="filter-modal-btn" onClick={() => { selectRowHandler(1) }}>
-                        <GoSettings />
-                    </div>
-                    {openSortModal === 1 &&
-                        <>
-                            <div className="open-modal-page-wrapper" onClick={modalCloseHandler}></div>
-                            <div className="sort-modal ">
-                                <h2>Sample</h2>
+                {
+                    filters.map((item) => (
+                        <th key={item.id} className={selectedRow === item.id ? 'active-row' : 'disabled-row'}>
+                            {item.title}
+                            {item.children ? item.children : null}
+                            <div className="filter-modal-btn" onClick={() => { selectRowHandler(item.id) }}>
+                                <GoSettings />
                             </div>
-                        </>
-                    }
-                </th>
-                <th className={selectedRow === 2 ? 'active-row' : 'disabled-row'}>
-                    PRICE
-                    <div className="filter-modal-btn" onClick={() => { selectRowHandler(2) }}>
-                        <GoSettings />
-                    </div>
-                    {openSortModal === 2 &&
-                        <>
-                            <div className="open-modal-page-wrapper" onClick={modalCloseHandler}></div>
-                            <div className="sort-modal ">
-                                <PriceFilterComponent />
-                            </div>
-                        </>
-                    }
-                </th>
-                <th className={selectedRow === 3 ? 'active-row' : 'disabled-row'}>
-                    CHG
-                    <div className="filter-modal-btn" onClick={() => { selectRowHandler(3) }}>
-                        <GoSettings />
-                    </div>
-                    {openSortModal === 3 &&
-                        <>
-                            <div className="open-modal-page-wrapper" onClick={modalCloseHandler}></div>
-                            <div className="sort-modal ">
-                                <h2>Sample</h2>
-                            </div>
-                        </>
-                    }
-                </th>
-                <th className={selectedRow === 4 ? 'active-row' : 'disabled-row'}
-                >
-                    CHG%
-                    <div className="filter-modal-btn" onClick={() => { selectRowHandler(4) }}>
-                        <GoSettings />
-                    </div>
-                    {openSortModal === 4 &&
-                        <>
-                            <div className="open-modal-page-wrapper" onClick={modalCloseHandler}></div>
-                            <div className="sort-modal ">
-                                <h2>Sample</h2>
-                            </div>
-                        </>
-                    }
-                </th>
-                <th
-                    className={selectedRow === 5 ? 'active-row' : 'disabled-row'}
-                >
-                    TECHNICAL RATING
-                    <div className="filter-modal-btn" onClick={() => { selectRowHandler(5) }}>
-                        <GoSettings />
-                    </div>
-                    {openSortModal === 5 &&
-                        <>
-                            <div className="open-modal-page-wrapper" onClick={modalCloseHandler}></div>
-                            <div className="sort-modal ">
-                                <h2>Sample</h2>
-                            </div>
-                        </>
-                    }
-                </th>
-
-                <th
-                    className={selectedRow === 6 ? 'active-row' : 'disabled-row'}
-                >
-                    VOL
-                    <div className="filter-modal-btn" onClick={() => { selectRowHandler(6) }}>
-                        <GoSettings />
-                    </div>
-                    {openSortModal === 6 &&
-                        <>
-                            <div className="open-modal-page-wrapper" onClick={modalCloseHandler}></div>
-                            <div className="sort-modal ">
-                                <h2>Sample</h2>
-                            </div>
-                        </>
-                    }
-                </th>
-                <th
-                    className={selectedRow === 7 ? 'active-row' : 'disabled-row'}
-                >
-                    MKT CAP
-                    <div className="filter-modal-btn" onClick={() => { selectRowHandler(7) }}>
-                        <GoSettings />
-                    </div>
-                    {openSortModal === 7 &&
-                        <>
-                            <div className="open-modal-page-wrapper" onClick={modalCloseHandler}></div>
-                            <div className="sort-modal ">
-                                <h2>Sample</h2>
-                            </div>
-                        </>
-                    }
-                </th>
-                <th
-                    className={selectedRow === 8 ? 'active-row' : 'disabled-row'}
-                >
-                    VOLUME*PRICE
-                    <div className="filter-modal-btn" onClick={() => { selectRowHandler(8) }}>
-                        <GoSettings />
-                    </div>
-                    {openSortModal === 8 &&
-                        <>
-                            <div className="open-modal-page-wrapper" onClick={modalCloseHandler}></div>
-                            <div className="sort-modal ">
-                                <h2>Sample</h2>
-                            </div>
-                        </>
-                    }
-                </th>
-                <th
-                    className={selectedRow === 9 ? 'active-row' : 'disabled-row'}
-                >
-                    PE
-                    <div className="filter-modal-btn" onClick={() => { selectRowHandler(9) }}>
-                        <GoSettings />
-                    </div>
-                    {openSortModal === 9 &&
-                        <>
-                            <div className="open-modal-page-wrapper" onClick={modalCloseHandler}></div>
-                            <div className="sort-modal ">
-                                <h2>Sample</h2>
-                            </div>
-                        </>
-                    }
-                </th>
-                <th
-                    className={selectedRow === 10 ? 'active-row' : 'disabled-row'}
-                >
-                    EMPLEYEES
-                    <div className="filter-modal-btn" onClick={() => { selectRowHandler(10) }}>
-                        <GoSettings />
-                    </div>
-                    {openSortModal === 10 &&
-                        <>
-                            <div className="open-modal-page-wrapper" onClick={modalCloseHandler}></div>
-                            <div className="sort-modal ">
-                                <h2>Sample</h2>
-                            </div>
-                        </>
-                    }
-                </th>
-                <th
-                    className={selectedRow === 11 ? 'active-row' : 'disabled-row'}
-                >
-                    SECTOR
-                    <div className="filter-modal-btn" onClick={() => { selectRowHandler(11) }}>
-                        <GoSettings />
-                    </div>
-                    {openSortModal === 11 &&
-                        <>
-                            <div className="open-modal-page-wrapper" onClick={modalCloseHandler}></div>
-                            <div className="sort-modal ">
-                                <h2>Sample</h2>
-                            </div>
-                        </>
-                    }
-                </th>
+                            {item.component ?
+                                <FilterModalComponent
+                                    isOpen={openSortModal === item.id}
+                                    component={item.component}
+                                    modalCloseHandler={modalCloseHandler}
+                                />
+                                : null}
+                        </th>
+                    ))
+                }
             </tr >
         </thead>
     )

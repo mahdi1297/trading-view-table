@@ -1,0 +1,91 @@
+.checkbox-select-title {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+
+.checkbox-select {
+    position: absolute;
+    background-color: #fff;
+    border-radius: 5px;
+    background-color: #fff;
+    border-radius: 3px;
+    box-shadow: 0 2px 4px #0003;
+    font-size: 13px;
+    line-height: 1;
+    padding: 10px;
+    position: absolute;
+    z-index: 99;
+    cursor: pointer;
+    width: 200px;
+}
+
+.checkbox-container {
+    position: relative;
+    padding-left: 30px;
+    margin-bottom: 15px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 300;
+    display: flex;
+    align-items: center;
+}
+
+input[type=checkbox] {
+    visibility: hidden;
+}
+
+.checkbox-indicator {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 20px;
+    width: 20px;
+    border: 2px solid #758696;
+    border-radius: 5px;
+}
+
+.checkbox-container input:checked~.checkbox-indicator {
+    background-color: #2962ff;
+    border: none;
+}
+
+.checkbox-indicator:after {
+    content: "";
+    position: absolute;
+    display: none;
+}
+
+.checkbox-container input:checked~.checkbox-indicator:after {
+    display: block;
+}
+
+.checkbox-container .checkbox-indicator:after {
+    left: 8px;
+    bottom: 5px;
+    width: 5px;
+    height: 13px;
+    border: solid white;
+    border-width: 0 2px 2px 0;
+    -webkit-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(47deg);
+}
+
+.checkbox-select-title {
+    width: max-content;
+}
+
+.checkbox-select-title svg {
+    margin-left: 10px;
+    font-size: 15px;
+    transition: all ease-in 0.2s;
+}
+
+.checkbox-select-title svg.icon-active {
+    transform: rotateX(180deg);
+}
+
+.checkbox-select-title svg.icon-deactive {
+    transform: rotateX(0deg);
+}

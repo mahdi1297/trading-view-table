@@ -1,6 +1,6 @@
-import { TechnicalRatingCheckbox } from "../types/technical-rating-checkbox";
+import { Checkbox } from "../types/technical-rating-checkbox";
 
-export const technicalRateFilters: TechnicalRatingCheckbox[] = [
+export const technicalRateFilters: Checkbox[] = [
   {
     index: 1,
     id: "Any",

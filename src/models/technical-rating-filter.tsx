@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
-import { technicalRateFilters } from '../../models/technical-rating-sort-list';
-import CheckboxComponent from '../checkbox/checkbox'
-import TitleComponent from '../title/title'
+import CheckboxComponent from '../components/checkbox/checkbox';
+import TitleComponent from '../components/title/title';
+import { technicalRateFilters } from './technical-rating-sort-list';
 
 
 const TechnicalRatingFilterComponent = () => {

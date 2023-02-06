@@ -1,10 +1,10 @@
 import React, { ChangeEventHandler, MouseEventHandler, useEffect, useRef, useState } from 'react'
 import { GoChevronDown } from 'react-icons/go'
-import { TechnicalRatingCheckbox } from '../../types/technical-rating-checkbox'
+import { Checkbox } from '../../types/technical-rating-checkbox';
 
 type Props = {
     getSelectedItemHandler?: Function,
-    filters: TechnicalRatingCheckbox[],
+    filters: Checkbox[],
     selectedItems?: string[],
 }
 

@@ -27,8 +27,37 @@
     opacity: 70%;
 }
 
-.filter-modal-body input {
+.filter-modal-body input.filter-input {
     width: 90% !important;
     padding: 7px 5px !important;
     font-size: 12px;
+}
+
+/* Volume Filters */
+.volume-filter-wrapper {
+    width: 100%;
+}
+
+.volume-filter-body {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    margin-top: -30px;
+
+    &>div.input-wrapper {
+        width: 20%;
+    }
+
+    &>div.slider-weapper {
+        position: relative;
+        width: 60%;
+    }
+}
+
+.volume-filter-body input.filter-input {
+    width: 80% !important;
+    margin: 0;
+    padding: 0;
+    height: 30px;
+    text-align: center;
 }

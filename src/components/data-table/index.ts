@@ -1,1 +1,0 @@
-export * as default from './data-table.component'

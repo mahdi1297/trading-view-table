@@ -1,7 +1,7 @@
 import { useContext } from 'react'
-import DataTableHeadComponent from '../components/data-table-head/data-table-head.component'
-import DataTableBodyComponent from '../components/data-table-body/data-table-body.component'
-import DataTableComponent from '../components/data-table/data-table.component'
+import DataTableHeadComponent from '../components/data-table-head/data-table-head'
+import DataTableBodyComponent from '../components/data-table-body/data-table-body'
+import DataTableComponent from '../components/data-table/data-table'
 import { DataContext } from '../context/data.context'
 import './view.style.css'
 
@@ -16,6 +16,7 @@ const HomeView = () => {
                 <DataTableHeadComponent />
                 <DataTableBodyComponent data={cardItems} />
             </DataTableComponent>
+            {typeof isLoading === 'boolean' && isLoading && <h1>IsLoading</h1>}
         </>
     )
 }

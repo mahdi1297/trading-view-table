@@ -1,15 +1,18 @@
 import React, { ChangeEventHandler, MouseEventHandler, useEffect, useRef, useState } from 'react'
 import { GoChevronDown } from 'react-icons/go'
-import './checkbox.style.css'
+import { TechnicalRatingCheckbox } from '../../types/technical-rating-checkbox'
 
 type Props = {
     getSelectedItemHandler?: Function,
-    filters: any,
+    filters: TechnicalRatingCheckbox[],
     selectedItems?: string[],
 }
 
 const CheckboxComponent = ({ getSelectedItemHandler, filters, selectedItems }: Props) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
+
+    // Active state is used to add transform animation for 
+    // title Arrow svg
     const [active, setActive] = useState(false);
 
     const checkboxRef = useRef<HTMLInputElement>();
@@ -25,14 +28,12 @@ const CheckboxComponent = ({ getSelectedItemHandler, filters, selectedItems }: P
     }, [isModalOpen]);
 
 
-    const handleClickOutside = (e: Event | any) => {
-        if (checkboxRef?.current) {
-            if (!checkboxRef.current.contains(e.target)) {
-                closeModalHandler();
-            }
+    // Detect outside modal click handler
+    function handleClickOutside(e: Event | any) {
+        if (checkboxRef?.current && !checkboxRef.current.contains(e.target)) {
+            closeModalHandler();
         }
     };
-
 
     function openModalHandler() {
         setIsModalOpen(true)
@@ -46,6 +47,8 @@ const CheckboxComponent = ({ getSelectedItemHandler, filters, selectedItems }: P
         getSelectedItemHandler(label)
     }
 
+    // Indicate selected checkbox items as title 
+    // or default one if no item selected
     const titleText = selectedItems ? selectedItems.join(' , ') : 'Any'
 
     return (
@@ -54,10 +57,9 @@ const CheckboxComponent = ({ getSelectedItemHandler, filters, selectedItems }: P
                 {titleText}
                 <GoChevronDown className={active ? 'icon-active' : 'icon-deactive'} />
             </p>
-
             {isModalOpen &&
                 <div className='checkbox-select' ref={checkboxRef}>
-                    {filters.length && filters.map((item: any) => (
+                    {filters.length && filters.map((item) => (
                         <label key={item.index} className="checkbox-container" htmlFor={item.id}>
                             {item.label}
                             <input
@@ -72,7 +74,6 @@ const CheckboxComponent = ({ getSelectedItemHandler, filters, selectedItems }: P
                 </div>
             }
         </>
-
     )
 }
 

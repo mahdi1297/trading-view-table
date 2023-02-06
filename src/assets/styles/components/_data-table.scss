@@ -1,10 +1,12 @@
 .table-container {
     width: 100%;
+    height: max-content;
+
     overflow-x: auto;
 }
 
 table {
-    width: 100%;
+    width: max-content;
     height: auto;
     display: flex;
     flex-direction: column;
@@ -24,8 +26,6 @@ thead tr {
 thead th:hover {
     background-color: #e6eaef;
 }
-
-
 
 thead th {
     color: #6a6d78;
@@ -60,6 +60,15 @@ tr th {
     font-size: 13px;
 }
 
+tbody td,
+thead th {
+    width: 100% !important;
+
+    &:first-child {
+        min-width: 270px !important;
+    }
+}
+
 tbody td {
     padding: 8px 20px;
     width: 130px;
@@ -68,7 +77,15 @@ tbody td {
     border-bottom: 1px solid #e6eaef;
     font-size: 14px;
     display: flex;
-    align-items: center;
+
+    &:not(:last-child, :first-child) {
+        align-items: center;
+        justify-content: center;
+    }
+
+    &:last-child {
+        text-align: left;
+    }
 }
 
 tbody td:first-child {
@@ -76,27 +93,6 @@ tbody td:first-child {
     text-align: left;
 }
 
-
-.filter-modal-btn {
-    display: none;
-}
-
-thead th:hover .filter-modal-btn {
-    display: flex;
-    position: absolute;
-    top: 0;
-    right: 0;
-    width: 40px;
-    height: 100%;
-    background-color: #e6eaef;
-    border-left: 1px solid #d0d3d7;
-    align-items: center;
-    justify-content: center;
-}
-
-.filter-modal-btn:hover {
-    background-color: rgb(238, 238, 238) !important;
-}
 
 svg {
     font-size: 22px;
@@ -106,3 +102,56 @@ svg {
 .active-row {
     border-bottom: 2px solid #37a6ef;
 }
+
+// Data-table item
+.item-image img {
+    border-radius: 100%;
+}
+
+.company-info span {
+    padding-left: 10px;
+    display: block;
+}
+
+.company-name {
+    color: #2962ff;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.corporation-name {
+    font-size: 11px;
+    color: #4f5966;
+}
+
+.currency-unit {
+    color: #787b86;
+    font-size: 11px;
+    line-height: 16px;
+    margin-left: 3px;
+}
+
+.color-blue {
+    color: #2962ff;
+}
+
+.color-red {
+    color: #ff4a68;
+}
+
+.color-disabled {
+    color: #ccc;
+}
+
+.color-green {
+    color: #00a97f;
+}
+
+thead th:last-child,
+td:last-child {
+    border-right: none;
+}
+
+.loading-disabled {
+    display: none;
+}   

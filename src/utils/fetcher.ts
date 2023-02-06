@@ -1,5 +1,11 @@
 import axios from "axios";
 
-export async function fetcher(url: string) {
+async function fetcher(url: string) {
   return await axios.get(url);
+}
+
+export async function fetchCoins() {
+  const result = await fetcher("/data/coins.json");
+
+  return result.data;
 }

@@ -1,10 +1,10 @@
 import { FC } from 'react'
-import './filter-modal.style.css'
 
 type Props = {
     component: FC,
     modalCloseHandler: Function,
-    isOpen: boolean
+    isOpen: boolean,
+    modalClassName?: string
 }
 
 const FilterModalComponent = (props: Props) => {
@@ -12,8 +12,9 @@ const FilterModalComponent = (props: Props) => {
         <>
             {props.isOpen &&
                 <>
-                    <div className="open-modal-page-wrapper" onClick={() => props.modalCloseHandler()}></div>
-                    <div className="filter-modal ">
+                    <div className="open-modal-page-wrapper"
+                        onClick={() => props.modalCloseHandler()}></div>
+                    <div className={`filter-modal ${props.modalClassName ? props.modalClassName : null}`}>
                         <props.component />
                     </div>
                 </>

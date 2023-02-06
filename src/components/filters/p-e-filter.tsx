@@ -1,25 +1,11 @@
 import { useState } from 'react'
+import SelectComponent from '../select/select'
+import TitleComponent from '../title/title'
+import { amoungSortList } from '../../models/amoung-sort'
 import { priceSortList } from '../../models/price-sort-list'
-import SelectComponent from '../select/select.component'
-import TitleComponent from '../title/title.component'
-import './style.css'
 
-const items = [
-  {
-    id: 1,
-    value: 'Below'
-  },
-  {
-    id: 2,
-    value: 'Below Or Equal'
-  },
-  {
-    id: 3,
-    value: 'Above'
-  }
-]
 
-const PriceFilterComponent = () => {
+const PEFilterComponent = () => {
   const [priceModalValue, setPriceModalValue] = useState<string>(null)
   const [valueModalValue, setValueModalValue] = useState<string>(priceSortList[0].value)
 
@@ -33,12 +19,11 @@ const PriceFilterComponent = () => {
 
   return (
     <>
-      <TitleComponent text="Price" />
-
+      <TitleComponent text="PRICE TO EARNINGS RATIO (TTM)" />
       <div className="filter-modal-body">
         <div>
           <SelectComponent
-            selectList={items}
+            selectList={amoungSortList}
             selectItemHandler={selectItemHandler}
             selectedItem={priceModalValue}
           />
@@ -51,11 +36,11 @@ const PriceFilterComponent = () => {
           />
         </div>
         <div>
-          {valueModalValue === 'Value' ? <input type="text" /> : <></>}
+          {valueModalValue === 'Value' ? <input className="filter-input" type="text" /> : <></>}
         </div>
       </div>
     </>
   )
 }
 
-export default PriceFilterComponent
+export default PEFilterComponent

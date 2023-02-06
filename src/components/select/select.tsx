@@ -1,12 +1,6 @@
 import { useState, useEffect, useRef } from 'react'
 import { GoChevronDown } from 'react-icons/go'
-import useComponentVisible from '../../hooks/use-component-visible'
-import './select.style.css'
-
-type SelectList = {
-    id: number,
-    value: string
-}
+import { SelectList } from '../../types/select-list'
 
 type Props = {
     selectItemHandler: Function,
@@ -32,6 +26,8 @@ const SelectComponent = ({ selectList, selectItemHandler, disabled = false, sele
     }, [isModalOpen]);
 
 
+    // Detect ouside select clicks to close
+    // modal when happend
     const handleClickOutside = (e: Event | any) => {
         if (selectRef?.current) {
             if (!selectRef.current.contains(e.target)) {

@@ -1,6 +1,7 @@
-import HeaderComponent from './components/header/header.component'
+import HeaderComponent from './components/header/header'
 import { DataContextProvider } from './context/data.context'
 import HomeView from './view/view.component'
+import './assets/styles/style.scss';
 
 function App() {
 

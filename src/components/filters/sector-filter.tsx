@@ -1,37 +1,11 @@
 import React, { useState } from 'react'
-import CheckboxComponent from '../checkbox/checkbox.component'
-import TitleComponent from '../title/title.component'
-
-const technicalRateFilters = [
-  {
-    index: 1,
-    id: 'Any',
-    label: 'Any',
-  },
-  {
-    index: 2,
-    id: 'Strong Buy',
-    label: 'Strong Buy'
-  },
-  {
-    index: 3,
-    id: 'Buy',
-    label: 'Buy'
-  },
-  {
-    index: 4,
-    id: 'Sell',
-    label: 'Sell'
-  },
-  {
-    index: 5,
-    id: 'Neutral',
-    label: 'Neutral'
-  },
-]
+import { sectorSortFilters } from '../../models/sector-filter-sort-list';
+import { technicalRateFilters } from '../../models/technical-rating-sort-list';
+import CheckboxComponent from '../checkbox/checkbox'
+import TitleComponent from '../title/title'
 
 
-const TechnicalRatingFilterComponent = () => {
+const SectorRatingFilterComponent = () => {
   const [selectedItems, setSelectedItems] = useState<string[]>(['Any']);
 
   const onClickHandler = (label: string) => {
@@ -42,10 +16,12 @@ const TechnicalRatingFilterComponent = () => {
     addLabelToList(label);
   }
 
+  // Add the selected item to list
   const addLabelToList = (label: string) => {
     setSelectedItems([...selectedItems, label])
   }
 
+  // Remove selected item from list 
   const removeLabelFromList = (label: string) => {
     const items = selectedItems.filter((s) => s !== label);
     setSelectedItems(items)
@@ -53,9 +29,9 @@ const TechnicalRatingFilterComponent = () => {
 
   return (
     <div>
-      <TitleComponent text="TECHNICAL RATING" />
+      <TitleComponent text="SECTOR" />
       <CheckboxComponent
-        filters={technicalRateFilters}
+        filters={sectorSortFilters}
         getSelectedItemHandler={onClickHandler}
         selectedItems={selectedItems}
       />
@@ -63,4 +39,4 @@ const TechnicalRatingFilterComponent = () => {
   )
 }
 
-export default TechnicalRatingFilterComponent
+export default SectorRatingFilterComponent

@@ -1,4 +1,3 @@
-import './header.style.css';
 
 const HeaderComponent = () => {
     return (

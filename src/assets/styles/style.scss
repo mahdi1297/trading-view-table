@@ -1,0 +1,30 @@
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@600&display=swap');
+
+// Components
+@import './components/checkbox';
+@import './components/data-table';
+@import './components/filter-modal';
+@import './components/filters';
+@import './components/header';
+@import './components/range-slider';
+@import './components/select';
+
+html {
+    font-size: 14px;
+}
+
+*,
+*::after,
+*::before {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+}
+
+* {
+    font-family: 'Quicksand', sans-serif;
+    // font-weight: 600;
+}

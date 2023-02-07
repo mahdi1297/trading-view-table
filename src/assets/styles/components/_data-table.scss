@@ -18,12 +18,12 @@ thead {
 }
 
 thead tr {
-    border: 1px solid #e6eaef;
+    border: 1px solid $gray-border-color;
     cursor: pointer;
 }
 
 thead th:hover {
-    background-color: #e6eaef;
+    background-color: $gray-border-color;
 }
 
 thead th {
@@ -39,7 +39,6 @@ thead th {
 thead th:first-child {
     width: 270px;
     text-align: left;
-    // border-bottom: 1px solid #e6eaef;
 }
 
 tr {
@@ -53,7 +52,7 @@ tbody tr {
 
 tr th {
     display: flex;
-    border-right: 1px solid #e6eaef;
+    border-right: 1px solid $gray-border-color;
     align-items: center;
     justify-content: center;
     display: flex;
@@ -87,7 +86,7 @@ tbody td {
     width: 130px;
     min-width: 130px;
     text-align: center;
-    border-bottom: 1px solid #e6eaef;
+    border-bottom: 1px solid $gray-border-color;
     font-size: 14px;
     display: flex;
 
@@ -125,7 +124,7 @@ svg {
 }
 
 .company-name {
-    color: #2962ff;
+    color: $primary-color;
     font-size: 14px;
     font-weight: 500;
 }
@@ -143,7 +142,7 @@ svg {
 }
 
 .color-blue {
-    color: #2962ff;
+    color: $primary-color;
 }
 
 .color-red {

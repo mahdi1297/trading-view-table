@@ -25,13 +25,13 @@
 }
 
 .slider__track {
-    background-color: #dadde0;
+    background-color: $slider-background-color;
     width: 100%;
     z-index: 1;
 }
 
 .slider__range {
-    background-color: #2962ff;
+    background-color: $primary-color;
     z-index: 2;
 }
 
@@ -77,10 +77,10 @@
 }
 
 .thumb::-webkit-slider-thumb {
-    background-color: #2962ff;
+    background-color: $primary-color;
     border: none;
     border-radius: 50%;
-    box-shadow: 0 0 1px 1px #2962ff;
+    box-shadow: 0 0 1px 1px $primary-color;
     cursor: pointer;
     height: 10px;
     width: 10px;
@@ -90,10 +90,10 @@
 }
 
 .thumb::-moz-range-thumb {
-    background-color: #2962ff;
+    background-color: $primary-color;
     border: none;
     border-radius: 50%;
-    box-shadow: 0 0 1px 1px #2962ff;
+    box-shadow: 0 0 1px 1px $primary-color;
     cursor: pointer;
     height: 10px;
     width: 10px;

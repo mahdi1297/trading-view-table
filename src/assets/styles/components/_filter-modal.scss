@@ -6,14 +6,20 @@
     position: absolute;
     top: 0;
     left: 0;
-    background-color: #fff;
-    border: 1px solid #e0e3eb;
+    background-color: $white-color;
+    border: 1px solid $gray-border-color;
     box-shadow: 0 2px 3px #252c3129;
     z-index: 10;
     padding: 1px 10px;
 
     border-radius: 5px;
     cursor: default;
+}
+
+@media (max-width: 1000px) {
+    .filter-modal-btn {
+        display: none !important;
+    }
 }
 
 .filter-modal-btn {
@@ -35,7 +41,7 @@ thead th:hover .filter-modal-btn {
 }
 
 .filter-modal-btn:hover {
-    background-color: #e0e3eb !important;
+    background-color: $gray-border-color !important;
     color: #131722
 }
 
@@ -53,6 +59,6 @@ thead th:hover .filter-modal-btn {
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: #e0e3eb39;
+    background-color: $open-modal-background-color;
     z-index: 5;
 }

@@ -31,7 +31,7 @@ const ToolbarComponent = () => {
 
                     <div className="spacer"></div>
 
-                    <div className="toolbar-item toolbar-more">
+                    <div className="toolbar-item toolbar-more overview-toolbar-item">
                         Overview
                     </div>
 

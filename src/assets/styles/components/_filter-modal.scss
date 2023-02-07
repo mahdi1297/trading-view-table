@@ -31,10 +31,12 @@ thead th:hover .filter-modal-btn {
     border-left: 1px solid #d0d3d7;
     align-items: center;
     justify-content: center;
+    ;
 }
 
 .filter-modal-btn:hover {
-    background-color: rgb(238, 238, 238) !important;
+    background-color: #e0e3eb !important;
+    color: #131722
 }
 
 .volume-in-price-filter-modal,

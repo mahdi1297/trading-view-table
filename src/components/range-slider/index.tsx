@@ -23,6 +23,7 @@ const RangeSliderComponent: FC<Props> = ({
 }) => {
     const [minVal, setMinVal] = useState(min);
     const [maxVal, setMaxVal] = useState(max);
+
     const minValRef = useRef<HTMLInputElement>(null);
     const maxValRef = useRef<HTMLInputElement>(null);
     const range = useRef<HTMLDivElement>(null);
@@ -61,7 +62,7 @@ const RangeSliderComponent: FC<Props> = ({
     // Get min and max values when their state changes
     useEffect(() => {
         onChange({ min: minVal, max: maxVal });
-    }, [minVal, maxVal, onChange]);
+    }, [minVal, maxVal]);
 
     const formattedMinNumber = numberFormatter(convertToString(minVal), 0)
     const formattedMaxNumber = numberFormatter(convertToString(maxVal), 0)
@@ -72,7 +73,7 @@ const RangeSliderComponent: FC<Props> = ({
                 type="range"
                 min={min}
                 max={max}
-                value={minVal}
+                defaultValue={minVal ? minVal : 0}
                 ref={minValRef}
                 onChange={(event: ChangeEvent<HTMLInputElement>) => {
                     const value = Math.min(+event.target.value, maxVal - 1);
@@ -87,7 +88,7 @@ const RangeSliderComponent: FC<Props> = ({
                 type="range"
                 min={min}
                 max={max}
-                value={maxVal}
+                defaultValue={maxVal ? maxVal : 100}
                 ref={maxValRef}
                 onChange={(event: ChangeEvent<HTMLInputElement>) => {
                     const value = Math.max(+event.target.value, minVal + 1);

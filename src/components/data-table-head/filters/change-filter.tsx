@@ -1,24 +1,29 @@
-import { useState } from 'react'
-import SelectComponent from '../select/select'
-import TitleComponent from '../title/title'
-import { amoungSortList } from '../../models/amoung-sort'
-import { priceSortList } from '../../models/price-sort-list'
+import { useContext, useState } from 'react'
+import SelectComponent from '../../select'
+import TitleComponent from '../../title'
+import { amoungSortList } from '../../../models/amoung-sort'
+import { priceSortList } from '../../../models/price-sort-list'
+import { CHANGE } from '../../../constaints'
+import { dataContext } from '../../../context/data.context'
 
-const ChangePercentFilterComponent = () => {
+const ChangeFilterComponent = () => {
     const [priceModalValue, setPriceModalValue] = useState<string>(null)
-    const [valueModalValue, setValueModalValue] = useState<string>(priceSortList[0].value)
+    const [valueModalValue, setValueModalValue] = useState<string>(priceSortList[0].value);
+
+    const _context = useContext(dataContext);
 
     const selectItemHandler = (value: string) => {
         setPriceModalValue(value)
     }
 
     const selectValueHandler = (value: string) => {
-        setValueModalValue(value)
+        setValueModalValue(value);
+        _context.load()
     }
 
     return (
         <>
-            <TitleComponent text="Change %" />
+            <TitleComponent text={CHANGE} />
             <div className="filter-modal-body">
                 <div>
                     <SelectComponent
@@ -35,11 +40,11 @@ const ChangePercentFilterComponent = () => {
                     />
                 </div>
                 <div>
-                    {valueModalValue === 'Value' ? <input className="filter-input" type="text" /> : <></>}
+                    {valueModalValue === 'Value' ? <input className="filter-input sarch-filter-input" type="text" /> : <></>}
                 </div>
             </div>
         </>
     )
 }
 
-export default ChangePercentFilterComponent
+export default ChangeFilterComponent

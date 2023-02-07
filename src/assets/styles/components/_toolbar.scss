@@ -1,0 +1,120 @@
+$color-light-gray: #e6eaef;
+
+
+.flex {
+    display: flex;
+}
+
+.flex-align-center {
+    @extend .flex;
+    align-items: center;
+}
+
+.flex-center {
+    @extend .flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.toolbar {
+    border-top: 2px solid $color-light-gray;
+    padding: 10px 20px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    &>div {
+        width: auto;
+        height: 100%;
+
+        @extend .flex-align-center;
+
+    }
+}
+
+.toolbar-item {
+    border: 1px solid #e0e3eb;
+    border-radius: 2px;
+    box-sizing: border-box;
+    color: #6a6d78;
+    cursor: pointer;
+    flex-shrink: 0;
+    font-size: 12px;
+    font-weight: 700;
+    // height: 32px;
+    max-width: 250px;
+    overflow: hidden;
+    padding: 5px 10px;
+    position: relative;
+    transition: background-color .175s ease, opacity .175s ease;
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    &:hover {
+        background-color: #e0e3eb;
+    }
+}
+
+.toolbar-button {
+    background-color: #f1f3f6;
+    border-radius: 2px;
+    color: #758696;
+    cursor: pointer;
+    display: inline-block;
+    font-size: 14px;
+    margin-left: 9px;
+    max-width: 150px;
+    overflow: hidden;
+    padding: 5px 10px;
+    text-overflow: ellipsis;
+    transition: background-color .175s ease;
+    white-space: nowrap;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    svg {
+        margin-left: 10px;
+    }
+
+    &:hover {
+        background: #758696 !important;
+        color: #fff;
+    }
+}
+
+.toolbar-button,
+.toolbar-item {
+    svg {
+        font-size: 15px;
+    }
+}
+
+.toolbar-buttons {
+    display: none;
+
+    @media (min-width: 1130px) {
+        display: flex;
+    }
+}
+
+.filter-toolbar-button {
+    background-color: #2962ff;
+    color: #fff;
+    margin-left: 0;
+    border-left: none;
+}
+
+.capitzlized-toolbar-button {
+    height: 35px;
+}
+
+.spacer {
+    display: block;
+    width: 20px;
+    height: 20px;
+}

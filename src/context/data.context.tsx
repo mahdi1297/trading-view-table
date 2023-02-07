@@ -7,11 +7,20 @@ type Props = {
     children: React.ReactNode
 }
 
-export const DataContext = createContext({
+export const dataContext = createContext({
     getDataList: function () { },
     setDataList: function () { },
-    isLoading: function () { }
+    isLoading: function () { },
+    load: function () { },
+    addToSort: function (filter: string, order: 'desc' | 'asc') { },
+    removeFromSort: function () { },
+    getSorts: function () { }
 })
+
+type SortListItem = {
+    filter: string,
+    order: 'desc' | 'asc'
+}
 
 export const DataContextProvider: React.FC<Props> = ({ children }) => {
     const [data, setData] = useState<DataTableBody[]>(null);
@@ -21,12 +30,21 @@ export const DataContextProvider: React.FC<Props> = ({ children }) => {
         setDataListHandler();
     }, [])
 
+
     const getDataListHandler = (): DataTableBody[] => {
         return data
     }
 
     const isLoadingHandler = (): boolean => {
         return loading as boolean
+    }
+
+    const loadHandler = () => {
+        setLoading(true);
+
+        setTimeout(() => {
+            setLoading(false)
+        }, 500)
     }
 
     const setDataListHandler = async () => {
@@ -46,12 +64,13 @@ export const DataContextProvider: React.FC<Props> = ({ children }) => {
     const store: any = {
         getDataList: getDataListHandler,
         setDataList: setDataListHandler,
-        isLoading: isLoadingHandler
+        isLoading: isLoadingHandler,
+        load: loadHandler
     };
 
     return (
-        <DataContext.Provider value={store}>
+        <dataContext.Provider value={store}>
             {children}
-        </DataContext.Provider>
+        </dataContext.Provider>
     )
 }

@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
-import CheckboxComponent from '../components/checkbox/checkbox';
-import TitleComponent from '../components/title/title';
+import CheckboxComponent from '../components/checkbox';
+import TitleComponent from '../components/title';
 import { technicalRateFilters } from './technical-rating-sort-list';
 
 

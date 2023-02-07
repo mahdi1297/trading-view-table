@@ -6,7 +6,7 @@ type Props = {
     selectItemHandler: Function,
     selectList: SelectList[],
     disabled?: boolean,
-    selectedItem: any
+    selectedItem?: any
 }
 
 const SelectComponent = ({ selectList, selectItemHandler, disabled = false, selectedItem }: Props) => {

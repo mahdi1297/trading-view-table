@@ -1,0 +1,154 @@
+.toolbar-filter {
+    display: flex;
+    flex-direction: column;
+    width: 60%;
+    background-color: #fff;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 9999999;
+    padding: 20px 0;
+    box-shadow: 0 1px 6px 1px rgb(0 0 0 / 28%);
+    max-height: 550px;
+    overflow-y: auto;
+
+    @media (max-width: 750px) {
+        width: 97%;
+    }
+
+    @media (min-width: 750px) {
+        width: 80%;
+    }
+
+    @media (min-width: 1000px) {
+        width: 80%;
+    }
+
+
+
+
+    &:visible {
+        display: block;
+    }
+
+    &.invisible {
+        display: none;
+    }
+
+    .head {
+        display: block;
+        height: 40px;
+        border-bottom: 1px solid #e0e3eb;
+        text-align: right;
+        padding-right: 20px;
+
+        span {
+            cursor: pointer;
+        }
+
+        svg {
+            color: #757575;
+            font-size: 26px;
+        }
+    }
+
+    .search-bar {
+        display: block;
+        width: 100%;
+        height: 50px;
+        position: relative;
+
+        span {
+            position: absolute;
+            left: 20px;
+            top: 14px;
+
+            svg {
+                color: #757575;
+            }
+        }
+
+        input.search-input {
+            width: 100%;
+            font-size: 14px;
+            padding: 5px 20px;
+            padding-left: 50px;
+            border: none;
+            height: 50px;
+            color: #434651;
+            border-bottom: 1px solid #e0e3eb;
+        }
+    }
+
+    .body {
+        padding: 20px;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+
+        .body-filter-items {
+            width: 100%;
+            border-bottom: 1px solid #e0e3eb;
+            height: 70px;
+
+            @media (min-width: 750px) {
+                width: 50%;
+            }
+        }
+
+        .body-filter-items,
+        .volume-filter-wrapper,
+        .body-filter-items,
+        .body-filter-items>div {
+            display: flex;
+            align-items: flex-start;
+            flex-wrap: nowrap;
+
+            h3 {
+                font-size: 12px;
+                font-weight: 400;
+                width: 150px;
+                position: relative;
+            }
+
+            .filter-input {
+                margin-left: 10px;
+            }
+        }
+
+        .sarch-filter-input {
+            margin-top: 8px;
+        }
+    }
+
+    .body-filter-items:nth-child(2n) {
+        border-left: none;
+
+        @media (min-width: 750px) {
+            border-left: 1px solid #e0e3eb;
+        }
+
+        padding-left: 5px;
+
+    }
+
+    p {
+        margin-left: 2px !important;
+    }
+}
+
+.toolbar-filter::-webkit-scrollbar {
+    width: 5px;
+    height: 5px;
+}
+
+.toolbar-filter::-webkit-scrollbar-track {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+}
+
+.toolbar-filter::-webkit-scrollbar-thumb {
+    background-color: #ccc;
+    border-radius: 10px;
+}

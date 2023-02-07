@@ -1,13 +1,17 @@
-import { useState } from 'react'
-import SelectComponent from '../select/select'
-import TitleComponent from '../title/title'
-import { amoungSortList } from '../../models/amoung-sort'
-import { priceSortList } from '../../models/price-sort-list'
+import { useContext, useState } from 'react'
+import SelectComponent from '../../select'
+import TitleComponent from '../../title'
+import { amoungSortList } from '../../../models/amoung-sort'
+import { priceSortList } from '../../../models/price-sort-list'
+import { dataContext } from '../../../context/data.context'
 
 
 const PriceFilterComponent = () => {
   const [priceModalValue, setPriceModalValue] = useState<string>(null)
   const [valueModalValue, setValueModalValue] = useState<string>(priceSortList[0].value)
+
+  const _context = useContext(dataContext);
+
 
   const selectItemHandler = (value: string) => {
     setPriceModalValue(value)
@@ -15,6 +19,7 @@ const PriceFilterComponent = () => {
 
   const selectValueHandler = (value: string) => {
     setValueModalValue(value)
+    _context.load();
   }
 
   return (
@@ -36,7 +41,7 @@ const PriceFilterComponent = () => {
           />
         </div>
         <div>
-          {valueModalValue === 'Value' ? <input className="filter-input" type="text" /> : <></>}
+          {valueModalValue === 'Value' ? <input className="filter-input sarch-filter-input" type="text" /> : <></>}
         </div>
       </div>
     </>

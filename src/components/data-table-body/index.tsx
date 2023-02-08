@@ -1,13 +1,13 @@
-import { DataTableBody } from '../../types/data-table-body'
+import { Data } from '../../types/data-table-body'
 
 type Props = {
-  data: DataTableBody[],
+  data: Data[],
 }
 
 const DataTableBodyComponent = ({ data }: Props) => {
   return (
     <tbody>
-      {data && data.map((item: DataTableBody) => (
+      {data && data.map((item: Data) => (
         <tr key={item.id}>
           <td className='item-image'>
             <div className='img'>

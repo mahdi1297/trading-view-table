@@ -6,21 +6,68 @@ import FilterModalComponent from '../filter-modal';
 import { dataContext } from '../../context/data.context';
 import { sortContext, SortList } from '../../context/sort.context';
 import { GoSettings } from 'react-icons/go'
+import { useDispatch, useSelector } from 'react-redux';
+import { AppDispatch } from '../../store';
+import { sortPrice } from '../../slices/data.slice';
 
 const DataTableHeadComponent = () => {
     const [selectedTitle, setSelectedTitle] = useState<string>(null)
     const [openSortModal, setOpenSortModal] = useState(0);
+    const [sortList, setSortList] = useState<SortList[]>()
 
-    const _sortContext = useContext(sortContext),
-        getSorts = _sortContext.getSortList();
+    const dispatch = useDispatch<AppDispatch>();
 
-    const _dataContext = useContext(dataContext)
+    function getFilterOrder(filter: string) {
+        if (sortList && typeof Array.isArray(sortList)) {
+            const existsInSorts = findInArray<SortList, string>(sortList, filter);
 
-    const tableHeadClickHandler = (event: MouseEvent<HTMLElement>, title: string) => {
+            if (existsInSorts) {
+                return existsInSorts.order === 'desc' ? 'asc' : 'desc'
+            }
+            return 'asc'
+        }
+        return 'asc'
+    }
+
+    function addToSortHandler(filter: string) {
+        if (typeof sortList !== 'undefined') {
+            const existsItem = findInArray<SortList, string>(sortList, filter)
+            if (existsItem) {
+                const filteredList = sortList.filter((f) => f.filter !== filter);
+                const itemOrder = getFilterOrder(filter);
+
+                const newListItem: SortList = {
+                    filter,
+                    order: itemOrder ? itemOrder : 'desc'
+                }
+                filteredList.push(newListItem);
+
+                setSortList(() => filteredList)
+            }
+            else {
+                const newItem: SortList = {
+                    filter,
+                    order: 'desc'
+                }
+                setSortList([...sortList, newItem])
+            }
+
+            return;
+        }
+
+        const newSort: SortList = {
+            filter,
+            order: 'asc'
+        }
+        setSortList([newSort])
+    }
+
+    const tableHeadClickHandler = (event: MouseEvent<HTMLElement>, title: string, sorterFunction: Function) => {
         preventEvents(event);
-        addSort(title);
         setTitle(title);
-        _dataContext.load();
+        addToSortHandler(title);
+        const order = getFilterOrder(title);
+        dispatch(sorterFunction(order))
     }
 
     const selectRowHandler = (event: MouseEvent<HTMLElement>, index: number) => {
@@ -37,24 +84,8 @@ const DataTableHeadComponent = () => {
         setOpenSortModal(null);
     }
 
-    const addSort = (title: string) => {
-        _sortContext.addToSort(title)
-    }
-
     const setTitle = (title: string) => {
-        setSelectedTitle(title)
-    }
-
-    const getSortStatue = (title: string) => {
-        if (getSorts !== undefined && Array.isArray(getSorts)) {
-            const existsItemInSort = findInArray<SortList, string>(getSorts, title);
-
-            if (existsItemInSort) {
-                return selectedTitle === title ? existsItemInSort.order : null
-            }
-            return null
-        }
-        return null
+        setSelectedTitle(title);
     }
 
     return (
@@ -66,32 +97,37 @@ const DataTableHeadComponent = () => {
                             key={item.id}
                             className={classNames({
                                 'row': 'row',
-                                'active-desc-sort': getSortStatue(item.title) &&
-                                    getSortStatue(item.title) === 'desc' ? true : false,
-                                'active-asc-sort': getSortStatue(item.title) &&
-                                    getSortStatue(item.title) === 'asc' ? true : false,
+                                'active-desc-sort': selectedTitle === item.title && getFilterOrder(item.title) &&
+                                    getFilterOrder(item.title) === 'desc' ? true : false,
+                                'active-asc-sort': selectedTitle === item.title && getFilterOrder(item.title) &&
+                                    getFilterOrder(item.title) === 'asc' ? true : false,
                             })}
                         >
-                            <div className='row-head-item-inner' onClick={(event) => tableHeadClickHandler(event, item.title)}>
+                            <div className='row-head-item-inner' onClick={(event) => tableHeadClickHandler(event, item.title, item.sorterFunction)}>
                                 {item.title}
                                 {item.children ? item.children : null}
                             </div>
-                            <div className="filter-modal-btn" onClick={(event) => { selectRowHandler(event, item.id) }}>
+                            <div
+                                className="filter-modal-btn"
+                                onClick={(event) => { selectRowHandler(event, item.id) }}
+                            >
                                 <GoSettings />
                             </div>
-                            {item.component ?
-                                <FilterModalComponent
-                                    isOpen={openSortModal === item.id}
-                                    component={item.component}
-                                    modalClassName={item.modalClassName ? item.modalClassName : null}
-                                    closeModalHandler={closeModalHandler}
-                                />
-                                : null}
+                            {
+                                item.component ?
+                                    <FilterModalComponent
+                                        isOpen={openSortModal === item.id}
+                                        component={item.component}
+                                        modalClassName={item.modalClassName ? item.modalClassName : null}
+                                        closeModalHandler={closeModalHandler}
+                                    />
+                                    : null
+                            }
                         </th>
                     ))
                 }
             </tr >
-        </thead>
+        </thead >
     )
 }
 

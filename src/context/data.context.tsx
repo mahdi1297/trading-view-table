@@ -1,5 +1,6 @@
 import { createContext, useEffect, useState } from "react";
-import { DataTableBody } from "../types/data-table-body";
+import { Sort } from "../helper/sort";
+import { Data } from "../types/data-table-body";
 import { fetchCoins } from "../utils/fetcher";
 import { formatNumbersOfObject } from "../utils/format-object-numbers";
 
@@ -14,7 +15,8 @@ export const dataContext = createContext({
     load: function () { },
     addToSort: function (filter: string, order: 'desc' | 'asc') { },
     removeFromSort: function () { },
-    getSorts: function () { }
+    getSorts: function () { },
+    sortByPrice: function (order: 'asc' | 'desc') { }
 })
 
 type SortListItem = {
@@ -23,15 +25,17 @@ type SortListItem = {
 }
 
 export const DataContextProvider: React.FC<Props> = ({ children }) => {
-    const [data, setData] = useState<DataTableBody[]>(null);
+    const [data, setData] = useState<Data[]>(null);
     const [loading, setLoading] = useState(false)
+
+    const sorter = new Sort(data);
 
     useEffect(() => {
         setDataListHandler();
     }, [])
 
 
-    const getDataListHandler = (): DataTableBody[] => {
+    const getDataListHandler = (): Data[] => {
         return data
     }
 
@@ -45,6 +49,16 @@ export const DataContextProvider: React.FC<Props> = ({ children }) => {
         setTimeout(() => {
             setLoading(false)
         }, 500)
+    }
+
+    const sortByPriceHandler = (order: 'asc' | 'desc') => {
+        startLoad();
+        let sorted = sorter.sortByPrice();
+        if (order === 'asc') {
+            sorted = sorted.reverse();
+        }
+        setData(() => sorted)
+        stopLoad();
     }
 
     const setDataListHandler = async () => {
@@ -61,11 +75,22 @@ export const DataContextProvider: React.FC<Props> = ({ children }) => {
         }).finally(() => setLoading(false))
     }
 
+    const startLoad = () => {
+        setLoading(true)
+    }
+
+    const stopLoad = () => {
+        setTimeout(() => {
+            setLoading(false)
+        }, 700)
+    }
+
     const store: any = {
         getDataList: getDataListHandler,
         setDataList: setDataListHandler,
         isLoading: isLoadingHandler,
-        load: loadHandler
+        load: loadHandler,
+        sortByPrice: sortByPriceHandler
     };
 
     return (

@@ -1,4 +1,4 @@
-export type DataTableBody = {
+export type Data = {
   id: number;
   s: string;
   brand: string;
@@ -8,7 +8,7 @@ export type DataTableBody = {
   price: number;
   "CHG%": number;
   CHG: number;
-  TECHNICAL_RATING: "Strong Buy" | "Buy" | "Sell";
+  TECHNICAL_RATING: "Strong Buy" | "Buy" | "Sell" | "Neutral";
   VOLUME: number;
   "VOLUME*PRICE": number;
   MKT_CAP: number;

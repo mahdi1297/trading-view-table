@@ -1,6 +1,4 @@
 import { createSlice, current, PayloadAction } from "@reduxjs/toolkit";
-import { FilterEvents } from "../helper/filter-events";
-import { findInArray } from "../utils/find-in-array";
 import { numberSorterHelper } from "../utils/sort-number";
 import { Data } from "./../types/data-table-body";
 import { fetchDataAction } from "./actions";

@@ -13,6 +13,8 @@ const TechnicalRatingFilterComponent = () => {
 
   const dataCtx = useSelector((state: RootState) => state.dataSlice);
 
+  console.log(dataCtx.filterList)
+
   const dipatch = useDispatch<AppDispatch>()
 
   const onClickHandler = (label: string) => {
@@ -27,8 +29,7 @@ const TechnicalRatingFilterComponent = () => {
       amoung: null,
       value: selectedItems
     }
-
-    dipatch(addFilterhList(filters))
+    // dipatch(addFilterhList(filters))
   }
 
   // Add the selected item to list
@@ -41,6 +42,9 @@ const TechnicalRatingFilterComponent = () => {
     const filterdItems = filterArray<string, string>(selectedItems, label)
     setSelectedItems(filterdItems)
   }
+
+  console.log(selectedItems)
+
 
   return (
     <div>

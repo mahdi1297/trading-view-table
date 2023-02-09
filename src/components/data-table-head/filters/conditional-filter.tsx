@@ -1,11 +1,11 @@
-import {  useState, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import SelectComponent from '../../select'
 import TitleComponent from '../../title'
 import { amoungSortList } from '../../../models/amoung-sort'
 import { priceSortList } from '../../../models/price-sort-list'
 import { useDispatch, useSelector } from 'react-redux'
-import { AppDispatch } from '../../../store'
-import { addFilterhList } from '../../../slices/data.slice'
+import { AppDispatch, RootState } from '../../../store'
+import { addFilterhList, Filter } from '../../../slices/data.slice'
 import { fetchDataAction } from '../../../slices/actions'
 
 type Props = {
@@ -14,36 +14,80 @@ type Props = {
 }
 
 const ConditionalFilterComponent = ({ componentSignature, componentTitle }: Props) => {
+    // First dropdow [value, setValue]
     const [operatorValue, setOperatorValue] = useState<string>(null)
-    const [functionFilterValue, setFunctionFilterValue] = useState<string>(priceSortList[0].value);
-    const [searchFieldValue, setSearchFieldValue] = useState<string>(null);
 
-    const dataState = useSelector((state: any) => state.dataSlice)
+    // Seccond dropdow [value, setValue]
+    const [functionFilterValue, setFunctionFilterValue] = useState<string>(priceSortList[0].value);
+
+    // Input [value, setValue]
+    const [searchFieldValue, setSearchFieldValue] = useState<string | any>(null);
+
+    const dataState = useSelector((state: RootState) => state.dataSlice)
     const dispatch = useDispatch<AppDispatch>();
 
+    // Global filterList array
     const filters = dataState.filterList
 
     useEffect(() => {
-        const applyFilterData = () => {
-            if (filters.length) {
-                const exists = filters.find((s: any) => s.filterName === componentSignature);
-                if (exists) {
-                    setOperatorValue(() => exists.amoung || 'Below');
-                    setFunctionFilterValue(() => typeof exists.value !== 'number' ? exists.value : 'Value');
-                    setSearchFieldValue(() => typeof exists.value === 'number' ? exists.value : null);
-                }
-            }
-        }
-
         applyFilterData();
     }, [])
 
+    const applyFilterData = () => {
+        if (filters.length) {
 
-    const setOperatorValueHandler = (value: string) => {
-        setOperatorValue(value)
+            // If filter of this componentSignature exists in filterList array
+            // sets the default values to first and seccond dropdown, and the input
+            const exists = filters.find((s: Filter) => s.filterName === componentSignature);
+            if (exists) {
+                setOperatorValue(() => exists.amoung || 'Below');
+                setFunctionFilterValue(() => typeof exists.value !== 'number' ? exists.value : 'Value');
+                setSearchFieldValue(() => typeof exists.value === 'number' ? exists.value : null);
+            }
+        }
     }
 
+    const dispatchAddFilter = (filter: Filter) => {
+        dispatch(addFilterhList(filter))
+    }
+
+    // Checks if the componentSignature filter exists in filterList array
+    const checkIfFilterExists = () => {
+        if (filters.length) {
+            const getFilters = filters.find((f: Filter) => f.filterName === componentSignature)
+            if (getFilters) {
+                return true
+            }
+            return false
+        }
+        return false
+    }
+
+    // Operator value(first dropdown) click handler
+    const setOperatorValueHandler = (value: string) => {
+        setOperatorValue(value)
+
+
+        const existsComponentSignatureInFilter = checkIfFilterExists();
+
+        // If the componentSignature filter exists, dispatch the filter by selecting
+        // the dropdown items, othervise not
+        if (existsComponentSignatureInFilter) {
+            const filter = {
+                filterName: componentSignature,
+                amoung: value,
+                value: searchFieldValue ? searchFieldValue : functionFilterValue
+
+            }
+            dispatchAddFilter(filter)
+        }
+
+    }
+
+    // Function value(seccond dropdown) click handler
     const setFunctionFilterValueHandler = (value: string) => {
+        // If value was not number(means the input is empty), so it
+        // fetchs the fresh data
         if (value === "" || value === "Value") {
             dispatch(fetchDataAction());
         }
@@ -56,10 +100,12 @@ const ConditionalFilterComponent = ({ componentSignature, componentTitle }: Prop
             value: value ? value : functionFilterValue
         }
 
-        dispatch(addFilterhList(filter))
+        dispatchAddFilter(filter)
     }
 
     const setSearchFieldValueHandler = (value: string) => {
+        // If value was not number(means the input is empty), so it
+        // fetchs the fresh data
         if (value === "" || value === "Value") {
             setSearchFieldValue(null);
             dispatch(fetchDataAction());
@@ -67,16 +113,13 @@ const ConditionalFilterComponent = ({ componentSignature, componentTitle }: Prop
         else {
             setSearchFieldValue(() => value);
         }
-
         const filter = {
             filterName: componentSignature,
             amoung: operatorValue || 'Below',
             value: value ? parseFloat(value) : functionFilterValue
         }
-
-        dispatch(addFilterhList(filter))
+        dispatchAddFilter(filter)
     }
-
 
     return (
         <>

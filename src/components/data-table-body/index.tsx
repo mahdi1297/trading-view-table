@@ -1,4 +1,5 @@
 import { Data } from '../../types/data-table-body'
+import { formatTwoDigitsAfterDecimal, numberFormatter } from '../../utils/number-formatter'
 
 type Props = {
   data: Data[],
@@ -22,13 +23,17 @@ const DataTableBodyComponent = ({ data }: Props) => {
             <span className='currency-unit'>{item.CURRENCY}</span>
           </td>
           <td>
-            <span className={item["CHG%"] > 0 ? 'color-green' : 'color-red'}>{item["CHG%"]}%</span>
-          </td>
-          <td>
             <span className={item.CHG > 0 ? 'color-green' : 'color-red'}>
-              {item.CHG}
+              {formatTwoDigitsAfterDecimal(`${item.CHG}`)}
+              {/* {item.CHG} */}
             </span>
             <span className='currency-unit'>{item.CURRENCY}</span>
+          </td>
+          <td>
+            <span className={item["CHG%"] > 0 ? 'color-green' : 'color-red'}>
+              {/* {item["CHG%"]}% */}
+              {formatTwoDigitsAfterDecimal(`${item["CHG%"]}`)}%
+            </span>
           </td>
           <td>
             <span className={item.TECHNICAL_RATING === 'Strong Buy' ? 'color-blue'
@@ -36,19 +41,25 @@ const DataTableBodyComponent = ({ data }: Props) => {
                 item.TECHNICAL_RATING === 'Sell' ? 'color-red' : 'color-disabled'}>{item.TECHNICAL_RATING}</span>
           </td>
           <td>
-            {item.VOLUME}
+            {numberFormatter(`${item.VOLUME}`, 2)}
+            {/* {item.VOLUME} */}
           </td>
           <td>
-            {item["VOLUME*PRICE"]}
+            {numberFormatter(`${item.MKT_CAP}`, 3)}
           </td>
           <td>
-            {item.MKT_CAP}
+            {numberFormatter(`${item["VOLUME*PRICE"]}`, 2)}
           </td>
           <td>
-            {item["P/E"]}<span className='currency-unit'>{item.CURRENCY}</span>
+
+            {item["P/E"] ? formatTwoDigitsAfterDecimal(`${item["P/E"]}`) : "-"}
+            {/* {item["P/E"]} */}
+            <span className='currency-unit'>
+              {item.CURRENCY}
+            </span>
           </td>
           <td>
-            {item.EMPLOYEES}
+            {numberFormatter(`${item.EMPLOYEES}`, 3)}
           </td>
           <td>
             {item.SECTOR}

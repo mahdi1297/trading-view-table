@@ -2,7 +2,7 @@ import { createContext, useEffect, useState } from "react";
 import { Sort } from "../helper/sort";
 import { Data } from "../types/data-table-body";
 import { fetchCoins } from "../utils/fetcher";
-import { formatNumbersOfObject } from "../utils/format-object-numbers";
+// import { formatNumbersOfObject } from "../utils/format-object-numbers";
 
 type Props = {
     children: React.ReactNode
@@ -63,16 +63,16 @@ export const DataContextProvider: React.FC<Props> = ({ children }) => {
 
     const setDataListHandler = async () => {
         setLoading(true)
-        await fetchCoins().then((result) => {
-            if (result && result.length) {
-                let columnItems = [];
-                for (const item of result) {
-                    let eachItem = formatNumbersOfObject(item);
-                    columnItems.push(eachItem)
-                }
-                setData(columnItems)
-            }
-        }).finally(() => setLoading(false))
+        // await fetchCoins().then((result) => {
+        //     if (result && result.length) {
+        //         let columnItems = [];
+        //         for (const item of result) {
+        //             let eachItem = formatNumbersOfObject(item);
+        //             columnItems.push(eachItem)
+        //         }
+        //         setData(columnItems)
+        //     }
+        // }).finally(() => setLoading(false))
     }
 
     const startLoad = () => {

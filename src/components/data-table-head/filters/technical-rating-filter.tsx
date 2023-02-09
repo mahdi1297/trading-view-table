@@ -1,16 +1,19 @@
-import React, { useContext, useState } from 'react'
+import { useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux';
 import { TECHNICAL_RATING } from '../../../constaints';
-import { dataContext } from '../../../context/data.context';
 import { technicalRateFilters } from '../../../models/technical-rating-sort-list';
+import { addFilterhList, Filter } from '../../../slices/data.slice';
+import { AppDispatch, RootState } from '../../../store';
 import { filterArray } from '../../../utils/filter-array';
 import CheckboxComponent from '../../checkbox'
 import TitleComponent from '../../title'
 
-
 const TechnicalRatingFilterComponent = () => {
   const [selectedItems, setSelectedItems] = useState<string[]>(['Any']);
 
-  const _context = useContext(dataContext)
+  const dataCtx = useSelector((state: RootState) => state.dataSlice);
+
+  const dipatch = useDispatch<AppDispatch>()
 
   const onClickHandler = (label: string) => {
     if (selectedItems.indexOf(label) > -1) {
@@ -19,7 +22,13 @@ const TechnicalRatingFilterComponent = () => {
     }
     addLabelToList(label);
 
-    _context.load()
+    const filters: Filter = {
+      filterName: "filterTechnicalRating",
+      amoung: null,
+      value: selectedItems
+    }
+
+    dipatch(addFilterhList(filters))
   }
 
   // Add the selected item to list

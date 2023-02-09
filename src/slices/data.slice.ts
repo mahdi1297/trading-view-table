@@ -1,25 +1,27 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { dynamicSort, sortNumber } from "../utils/sort-number";
+import { createSlice, current, PayloadAction } from "@reduxjs/toolkit";
+import { FilterEvents } from "../helper/filter-events";
+import { findInArray } from "../utils/find-in-array";
+import { numberSorterHelper } from "../utils/sort-number";
 import { Data } from "./../types/data-table-body";
 import { fetchDataAction } from "./actions";
+
+export type Filter = {
+  filterName: string;
+  amoung: string | null;
+  value: string | number | string[] | null | any;
+};
 
 type InitialState = {
   isLoading: boolean;
   dataList: Data[];
+  filterList: Filter[];
 };
 
 const initialState: InitialState = {
   dataList: null,
-  isLoading: false,
+  isLoading: true,
+  filterList: [],
 };
-
-function sorterHelper(list: Data[], order: "desc" | "asc", param: string) {
-  let sortedList = sortNumber(list, param);
-  if (order === "asc") {
-    sortedList.reverse();
-  }
-  return sortedList;
-}
 
 const dataSlice = createSlice({
   name: "data",
@@ -30,58 +32,125 @@ const dataSlice = createSlice({
     },
     load: (state) => {
       state.isLoading = true;
-
-      setTimeout(() => {
-        state.isLoading = false;
-      }, 500);
+    },
+    stopLoad: (state) => {
+      state.isLoading = false;
     },
     sortPrice: (state, action: PayloadAction<"desc" | "asc">) => {
-      state.dataList = sorterHelper(state.dataList, action.payload, "price");
+      state.dataList = numberSorterHelper(
+        state.dataList,
+        action.payload,
+        "price"
+      );
     },
     sortChange: (state, action: PayloadAction<"desc" | "asc">) => {
-      state.dataList = sorterHelper(state.dataList, action.payload, "CHG");
+      state.dataList = numberSorterHelper(
+        state.dataList,
+        action.payload,
+        "CHG"
+      );
     },
     sortChangePercent: (state, action: PayloadAction<"desc" | "asc">) => {
-      state.dataList = sorterHelper(state.dataList, action.payload, "CHG%");
+      state.dataList = numberSorterHelper(
+        state.dataList,
+        action.payload,
+        "CHG%"
+      );
     },
     sortVolume: (state, action: PayloadAction<"desc" | "asc">) => {
-      state.dataList = sorterHelper(state.dataList, action.payload, "VOLUME");
+      state.dataList = numberSorterHelper(
+        state.dataList,
+        action.payload,
+        "VOLUME"
+      );
     },
     sortMarketCap: (state, action: PayloadAction<"desc" | "asc">) => {
-      state.dataList = sorterHelper(state.dataList, action.payload, "MKT_CAP");
+      state.dataList = numberSorterHelper(
+        state.dataList,
+        action.payload,
+        "MKT_CAP"
+      );
     },
     sortVolumeInPrice: (state, action: PayloadAction<"desc" | "asc">) => {
-      state.dataList = sorterHelper(
+      state.dataList = numberSorterHelper(
         state.dataList,
         action.payload,
         "VOLUME*PRICE"
       );
     },
     sortPE: (state, action: PayloadAction<"desc" | "asc">) => {
-      state.dataList = sorterHelper(state.dataList, action.payload, "P/E");
+      state.dataList = numberSorterHelper(
+        state.dataList,
+        action.payload,
+        "P/E"
+      );
     },
     sortEmployees: (state, action: PayloadAction<"desc" | "asc">) => {
-      state.dataList = sorterHelper(
+      state.dataList = numberSorterHelper(
         state.dataList,
         action.payload,
         "EMPLOYEES"
       );
     },
     sortSector: (state, action: PayloadAction<"desc" | "asc">) => {
-      console.log("sector");
-      // let sortedList = sortNumber(state.dataList, "EMPLOYEES");
-      // if (action.payload === "asc") {
-      //   sortedList.reverse();
-      // }
-      // state.dataList = sortedList;
-      // load();
-
-      const newData = state.dataList.sort(function (a, b) {
+      state.dataList = state.dataList.sort(function (a, b) {
         return a.SECTOR.localeCompare(b.SECTOR);
       });
+      if (action.payload === "asc") {
+        state.dataList.reverse();
+      }
+    },
+    sortTechnicalRating: (state, action: PayloadAction<"desc" | "asc">) => {
+      const list = state.dataList.sort((a: any, b) => {
+        if (a.TECHNICAL_RATING === "Strong Buy") return -1;
+        if (b.TECHNICAL_RATING === "Strong Buy") return 1;
+        if (a.TECHNICAL_RATING === "Buy") return -1;
+        if (b.TECHNICAL_RATING === "Buy") return 1;
+        if (a.TECHNICAL_RATING === "Sell") return -1;
+        if (b.TECHNICAL_RATING === "Sell") return 1;
+        if (a.TECHNICAL_RATING === "Neutral") return -1;
+        if (b.TECHNICAL_RATING === "Neutral") return 1;
+        return 0;
+      });
 
-      console.log(state.dataList);
-      console.log(newData);
+      if (action.payload === "desc") {
+        list.reverse();
+      }
+
+      state.dataList = list;
+    },
+    addFilterhList: (state, action: PayloadAction<any>) => {
+      const { filterName, amoung, value } = action.payload;
+
+      const filterList = state.filterList;
+
+      // If there is no filter in filterList
+      if (filterList.length === 0) {
+        state.filterList = [action.payload];
+        return;
+      } else {
+        // Item exists or not
+        const existsInFilterList = state.filterList.find(
+          (f) => f.filterName === filterName
+        );
+
+        if (existsInFilterList) {
+          const filterdFilterList = filterList.filter(
+            (f: Filter) => f.filterName !== filterName
+          );
+
+          const modifiedFilter = action.payload;
+
+          state.filterList = [...filterdFilterList, modifiedFilter];
+          return;
+        } else {
+          state.filterList = [...state.filterList, action.payload];
+          existsInFilterList;
+        }
+      }
+    },
+    setData: (state, action) => {
+      state.dataList = action.payload;
     },
   },
 
@@ -91,8 +160,8 @@ const dataSlice = createSlice({
     });
 
     builder.addCase(fetchDataAction.fulfilled, (state, { payload }) => {
-      state.isLoading = false;
       state.dataList = payload;
+      state.isLoading = false;
     });
 
     builder.addCase(fetchDataAction.rejected, (state, { payload }) => {
@@ -105,6 +174,7 @@ const dataSlice = createSlice({
 export const {
   sortPrice,
   load,
+  stopLoad,
   sortChange,
   sortChangePercent,
   sortVolume,
@@ -113,6 +183,9 @@ export const {
   sortPE,
   sortEmployees,
   sortSector,
+  sortTechnicalRating,
+  addFilterhList,
+  setData,
 } = dataSlice.actions;
 
 export const dataActions = dataSlice.actions;

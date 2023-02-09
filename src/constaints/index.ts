@@ -14,3 +14,4 @@ export const CHANGE_PERCENT = "CHANGE %";
 export const PRICE_TO_EARNING_RATIO = "PRICE TO EARNINGS RATIO (TTM)";
 export const SECTOR = "SECTOR";
 export const TECHNICAL_RATING = "TECHNICAL RATING";
+export const PRICE = "PRICE"

@@ -31,8 +31,7 @@ const ToolbarFilterModal = ({ visible, hideModalHandler }: Props) => {
     return (
         <div className={classNames({
             'toolbar-filter': true,
-            'visible': visible ? true : false,
-            'invisible': visible ? false : true
+            'visible': true
         })}
             ref={modalRef}
         >

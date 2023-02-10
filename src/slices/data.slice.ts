@@ -118,7 +118,9 @@ const dataSlice = createSlice({
       state.dataList = list;
     },
     addFilterhList: (state, action: PayloadAction<any>) => {
-      const { filterName, amoung, value } = action.payload;
+      // console.log(action.payload);
+
+      const { filterName } = action.payload;
 
       const filterList = state.filterList;
 

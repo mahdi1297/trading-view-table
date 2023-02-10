@@ -1,40 +1,63 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
-import { TECHNICAL_RATING } from '../../../constaints';
-import { technicalRateFilters } from '../../../models/technical-rating-sort-list';
+import { technicalRateFilters } from '../../../models/technical-rating-list';
 import { addFilterhList, Filter } from '../../../slices/data.slice';
 import { AppDispatch, RootState } from '../../../store';
+import { Checkbox } from '../../../types/technical-rating-checkbox';
 import { filterArray } from '../../../utils/filter-array';
 import CheckboxComponent from '../../checkbox'
 import TitleComponent from '../../title'
 
-const TechnicalRatingFilterComponent = () => {
+type Props = {
+  componentSignature: string,
+  componentTitle: string,
+  filterList: Checkbox[]
+}
+
+const SelectiveFilterComponent = ({ componentSignature, componentTitle, filterList }: Props) => {
   const [selectedItems, setSelectedItems] = useState<string[]>(['Any']);
 
   const dataCtx = useSelector((state: RootState) => state.dataSlice);
 
-  console.log(dataCtx.filterList)
-
   const dipatch = useDispatch<AppDispatch>()
+
+  useEffect(() => {
+    dispatcher();
+  }, [selectedItems])
+
+  useEffect(() => {
+    getDefaultValue();
+  }, [])
+
+  const dispatcher = () => {
+    const filters: Filter = {
+      filterName: componentSignature,
+      amoung: null,
+      value: selectedItems
+    }
+    dipatch(addFilterhList(filters))
+  }
+
+  const getDefaultValue = () => {
+    const existsItem = dataCtx?.filterList.find((f: Filter) => f.filterName === componentSignature);
+
+    if (existsItem) {
+      setSelectedItems(existsItem.value)
+    }
+  }
 
   const onClickHandler = (label: string) => {
     if (selectedItems.indexOf(label) > -1) {
       removeLabelFromList(label);
       return;
     }
-    addLabelToList(label);
 
-    const filters: Filter = {
-      filterName: "filterTechnicalRating",
-      amoung: null,
-      value: selectedItems
-    }
-    // dipatch(addFilterhList(filters))
+    addLabelToList(label);
   }
 
   // Add the selected item to list
   const addLabelToList = (label: string) => {
-    setSelectedItems([...selectedItems, label])
+    setSelectedItems(() => [...selectedItems, label])
   }
 
   // Remove selected item from list 
@@ -43,14 +66,11 @@ const TechnicalRatingFilterComponent = () => {
     setSelectedItems(filterdItems)
   }
 
-  console.log(selectedItems)
-
-
   return (
     <div>
-      <TitleComponent text={TECHNICAL_RATING} />
+      <TitleComponent text={componentTitle} />
       <CheckboxComponent
-        filters={technicalRateFilters}
+        filters={filterList}
         getSelectedItemHandler={onClickHandler}
         selectedItems={selectedItems}
       />
@@ -58,4 +78,4 @@ const TechnicalRatingFilterComponent = () => {
   )
 }
 
-export default TechnicalRatingFilterComponent
+export default SelectiveFilterComponent

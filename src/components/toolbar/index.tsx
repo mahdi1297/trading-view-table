@@ -1,7 +1,6 @@
 import React, { lazy, Suspense, useState } from 'react'
 import { GoKebabVertical, GoSettings } from 'react-icons/go'
 import { SlRefresh } from 'react-icons/sl'
-// import ToolbarFilterModal from './toolbar-filter';
 
 const ToolbarFilterModal = lazy(() => import('./toolbar-filter'));
 
@@ -56,7 +55,9 @@ const ToolbarComponent = () => {
                 </div>
             </div>
             <Suspense fallback={<></>}>
-                <ToolbarFilterModal visible={showFilterModal} hideModalHandler={hideFilterModalHandler} />
+                {showFilterModal &&
+                    <ToolbarFilterModal visible={showFilterModal} hideModalHandler={hideFilterModalHandler} />
+                }
             </Suspense>
         </>
     )

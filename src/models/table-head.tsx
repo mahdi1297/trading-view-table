@@ -2,12 +2,14 @@ import ConditionalFilterComponent from '../components/data-table-head/filters/co
 import EmpeloyeeFilterFilterComponent from '../components/data-table-head/filters/empeloyee-filter';
 import MarketCapitalizationFilterComponent from '../components/data-table-head/filters/market-capitalization-filter';
 import SectorRatingFilterComponent from '../components/data-table-head/filters/sector-filter';
-import TechnicalRatingFilterComponent from "../components/data-table-head/filters/technical-rating-filter";
+import SelectiveFilterComponent from '../components/data-table-head/filters/selective-filter';
 import VolumeFilterComponent from '../components/data-table-head/filters/volume-filter';
 import VolumeInPriceFilterComponent from '../components/data-table-head/filters/volume-in-price-filter';
-import { CHANGE, CHANGE_PERCENT, PRICE_TO_EARNING_RATIO } from '../constaints';
+import { CHANGE, CHANGE_PERCENT, PRICE_TO_EARNING_RATIO, SECTOR, TECHNICAL_RATING } from '../constaints';
 import { sortChange, sortChangePercent, sortEmployees, sortMarketCap, sortPE, sortPrice, sortSector, sortTechnicalRating, sortVolume, sortVolumeInPrice } from '../slices/data.slice';
 import { TableHead } from "../types/table-head";
+import { sectorSortFilters } from './sector-filter-sort-list';
+import { technicalRateFilters } from './technical-rating-list';
 
 export const tableHeads: TableHead[] = [
   {
@@ -39,7 +41,11 @@ export const tableHeads: TableHead[] = [
   {
     id: 5,
     title: "TECHNICAL RATING",
-    component: TechnicalRatingFilterComponent,
+    component: () => <SelectiveFilterComponent
+      componentSignature="filterTechnicalRating"
+      componentTitle={TECHNICAL_RATING}
+      filterList={technicalRateFilters}
+    />,
     sorterFunction: sortTechnicalRating
   },
   {
@@ -78,8 +84,12 @@ export const tableHeads: TableHead[] = [
   {
     id: 12,
     title: "SECTOR",
-    component: SectorRatingFilterComponent,
     modalClassName: 'sector-filter-modal',
-    sorterFunction: sortSector
+    sorterFunction: sortSector,
+    component: () => <SelectiveFilterComponent
+      componentSignature="filterSector"
+      componentTitle={SECTOR}
+      filterList={sectorSortFilters}
+    />,
   },
 ];

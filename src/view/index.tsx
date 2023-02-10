@@ -6,14 +6,14 @@ import DataTableComponent from '../components/data-table'
 import SortContextProvider from '../context/sort.context'
 import SpinnerLoaderComponent from '../components/spinner-loader'
 import ToolbarComponent from '../components/toolbar'
-import { AppDispatch } from '../store';
+import { AppDispatch, RootState } from '../store';
 import { fetchDataAction } from '../slices/actions';
 import { ConcreteFilterEvents, Statue } from '../helper/filter-events';
 import { Filter, setData } from '../slices/data.slice';
 import { data } from '../data';
 
 const HomeView = () => {
-    const dataCtx = useSelector((state: any) => state.dataSlice)
+    const dataCtx = useSelector((state: RootState) => state.dataSlice)
     const dispatch = useDispatch<AppDispatch>()
 
     const filters = dataCtx.filterList;
@@ -38,6 +38,8 @@ const HomeView = () => {
     useEffect(() => {
         dispatch(fetchDataAction());
     }, [])
+
+    // console.log(dataCtx.filterList)
 
     return (
         <>

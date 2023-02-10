@@ -1,11 +1,13 @@
 import MarketCapitalizationFilterComponent from "../components/data-table-head/filters/market-capitalization-filter"
 import ConditionalFilterComponent from '../components/data-table-head/filters/conditional-filter'
-import { CHANGE, CHANGE_PERCENT, PRICE, PRICE_TO_EARNING_RATIO } from "../constaints";
+import { CHANGE, CHANGE_PERCENT, PRICE, PRICE_TO_EARNING_RATIO, SECTOR, TECHNICAL_RATING } from "../constaints";
 import VolumeFilterComponent from "../components/data-table-head/filters/volume-filter";
 import VolumeInPriceFilterComponent from "../components/data-table-head/filters/volume-in-price-filter";
 import EmpeloyeeFilterFilterComponent from "../components/data-table-head/filters/empeloyee-filter";
 import SectorRatingFilterComponent from "../components/data-table-head/filters/sector-filter";
-import TechnicalRatingFilterComponent from "./technical-rating-filter";
+import SelectiveFilterComponent from "../components/data-table-head/filters/selective-filter";
+import { technicalRateFilters } from "./technical-rating-list";
+import { sectorSortFilters } from "./sector-filter-sort-list";
 
 export const toolbarFilters = [
   {
@@ -66,8 +68,12 @@ export const toolbarFilters = [
   {
     id: 12,
     title: "SECTOR",
-    component: SectorRatingFilterComponent,
     modalClassName: "sector-filter-modal",
+    component: () => <SelectiveFilterComponent
+      componentSignature="filterSector"
+      componentTitle={SECTOR}
+      filterList={sectorSortFilters}
+    />,
   },
   {
     id: 2,
@@ -83,6 +89,10 @@ export const toolbarFilters = [
   {
     id: 5,
     title: "TECHNICAL RATING",
-    component: TechnicalRatingFilterComponent,
+    component: () => <SelectiveFilterComponent
+      componentSignature="filterTechnicalRating"
+      componentTitle={TECHNICAL_RATING}
+      filterList={technicalRateFilters}
+    />,
   },
 ];

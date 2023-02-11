@@ -1,12 +1,20 @@
-import React, { lazy, Suspense, useState } from 'react'
+import { lazy, Suspense, useState } from 'react'
 import { GoKebabVertical, GoSettings } from 'react-icons/go'
 import { SlRefresh } from 'react-icons/sl'
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchDataAction } from '../../slices/actions';
+import { clearFilters } from '../../slices/data.slice';
+import { AppDispatch, RootState } from '../../store';
 
 const ToolbarFilterModal = lazy(() => import('./toolbar-filter'));
 
-
 const ToolbarComponent = () => {
     const [showFilterModal, setShowFilterModal] = useState(false);
+
+    const dataCtx = useSelector((state: RootState) => state.dataSlice);
+    const dispatch = useDispatch<AppDispatch>()
+
+
 
     const showFilterModalHandler = () => {
         setShowFilterModal(true)
@@ -16,11 +24,16 @@ const ToolbarComponent = () => {
         setShowFilterModal(false)
     }
 
+    const getFreshDataHandler = () => {
+        dispatch(clearFilters())
+        dispatch(fetchDataAction())
+    }
+
     return (
         <>
             <div className="toolbar">
                 <div>
-                    <div className="toolbar-item toolbar-refresh">
+                    <div className="toolbar-item toolbar-refresh" onClick={getFreshDataHandler}>
                         <SlRefresh size={18} />
                     </div>
                     <div className="toolbar-item toolbar-more">

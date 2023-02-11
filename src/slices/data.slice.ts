@@ -34,6 +34,9 @@ const dataSlice = createSlice({
     stopLoad: (state) => {
       state.isLoading = false;
     },
+    clearFilters: (state) => {
+      state.filterList = [];
+    },
     sortPrice: (state, action: PayloadAction<"desc" | "asc">) => {
       state.dataList = numberSorterHelper(
         state.dataList,
@@ -186,6 +189,7 @@ export const {
   sortTechnicalRating,
   addFilterhList,
   setData,
+  clearFilters
 } = dataSlice.actions;
 
 export const dataActions = dataSlice.actions;

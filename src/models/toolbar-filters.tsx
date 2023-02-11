@@ -29,6 +29,7 @@ export const toolbarFilters: TableHead[] = [
   {
     id: 7,
     title: "MKT CAP",
+    item_name: "MARKET CAPITALIZATION",
     component: () => <RangeNumberComponent
       RANGE_SLIDER_MIN_VALUE={MARKET_KAP_RANGE_SLIDER_MIN_VALUE}
       RANGE_SLIDER_MAX_VALUE={MARKET_KAP_RANGE_SLIDER_MAX_VALUE}
@@ -39,6 +40,7 @@ export const toolbarFilters: TableHead[] = [
   {
     id: 4,
     title: "CHG%",
+    item_name: "CHANGE %",
     component: () => (
       <ConditionalFilterComponent
         componentSignature="filterChangePercent"
@@ -49,6 +51,7 @@ export const toolbarFilters: TableHead[] = [
   {
     id: 6,
     title: "VOL",
+    item_name: "VOLUME",
     component: () => <RangeNumberComponent
       RANGE_SLIDER_MIN_VALUE={VOLUME_RANGE_SLIDER_MIN_VALUE}
       RANGE_SLIDER_MAX_VALUE={VOLUME_RANGE_SLIDER_MAX_VALUE}
@@ -60,6 +63,7 @@ export const toolbarFilters: TableHead[] = [
   {
     id: 3,
     title: "CHG",
+    item_name: "CHANGE",
     component: () => (
       <ConditionalFilterComponent
         componentSignature="filterChange"
@@ -71,6 +75,7 @@ export const toolbarFilters: TableHead[] = [
   {
     id: 8,
     title: "VOLUME*PRICE",
+    item_name: "VOLUME*PRICE",
     component: () => <RangeNumberComponent
       componentSignature="filterValueInPrice"
       RANGE_SLIDER_MIN_VALUE={PRICE_IN_VOLUME_RANGE_SLIDER_MIN_VALUE}
@@ -81,6 +86,7 @@ export const toolbarFilters: TableHead[] = [
   {
     id: 10,
     title: "P/E",
+    item_name: "PRICE TO EARNINGS RATIO (TTM)",
     component: () => (
       <ConditionalFilterComponent
         componentSignature="filterPE"
@@ -92,6 +98,7 @@ export const toolbarFilters: TableHead[] = [
   {
     id: 11,
     title: "EMPLOYEES",
+    item_name: "EMPLOYEES",
     component: () => <RangeNumberComponent
       componentSignature="filterEmployees"
       RANGE_SLIDER_MIN_VALUE={EMPLOYEE_RANGE_SLIDER_MIN_VALUE}
@@ -103,6 +110,7 @@ export const toolbarFilters: TableHead[] = [
   {
     id: 12,
     title: "SECTOR",
+    item_name: "SECTOR",
     modalClassName: "sector-filter-modal",
     component: () => <SelectiveFilterComponent
       componentSignature="filterSector"
@@ -112,7 +120,8 @@ export const toolbarFilters: TableHead[] = [
   },
   {
     id: 2,
-    title: "Price",
+    title: "PRICE",
+    item_name: "PRICE",
     component: () => (
       <ConditionalFilterComponent
         componentSignature="filterPrice"
@@ -124,6 +133,7 @@ export const toolbarFilters: TableHead[] = [
   {
     id: 5,
     title: "TECHNICAL RATING",
+    item_name: "TECHNICAL RATING",
     component: () => <SelectiveFilterComponent
       componentSignature="filterTechnicalRating"
       componentTitle={TECHNICAL_RATING}

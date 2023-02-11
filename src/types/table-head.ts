@@ -7,4 +7,5 @@ export type TableHead = {
   children?: ReactElement;
   modalClassName?: string;
   sorterFunction?: Function;
+  item_name?: string;
 };

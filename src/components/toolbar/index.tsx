@@ -14,8 +14,6 @@ const ToolbarComponent = () => {
     const dataCtx = useSelector((state: RootState) => state.dataSlice);
     const dispatch = useDispatch<AppDispatch>()
 
-
-
     const showFilterModalHandler = () => {
         setShowFilterModal(true)
     }

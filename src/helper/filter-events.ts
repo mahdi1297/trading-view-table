@@ -1,10 +1,17 @@
+import { RANGE_SLIDER_MAX_VALUE, RANGE_SLIDER_MIN_VALUE } from "../constaints";
+import {
+  isArrayOfStrings,
+  isNumber,
+  isObject,
+  isString,
+} from "../utils/type-guards";
 import { Data } from "../types/data-table-body";
 
-export type Statue = "Above" | "Below Or Equal" | "Below" ;
+export type Statue = "Above" | "Below Or Equal" | "Below";
 
 interface FilterEvent {
   concrete: (
-    value: number | string,
+    value: string[] | number | string,
     amoung: Statue,
     dataList: Data[]
   ) => Data[];
@@ -13,21 +20,14 @@ interface FilterEvent {
 interface ConcreteFilter {
   distributeEvents: (
     filterName: string,
-    value: string,
-    amoung: Statue
+    value: string | string[],
+    amoung: Statue,
+    getNewData: Function
   ) => void | Data[];
   build: () => Data[];
 }
 
 class FilterUtils {
-  constructor() {}
-
-  checkIfNumber(value: number | string, dataList: Data[]) {
-    if (typeof value === "number") {
-      return dataList;
-    }
-  }
-
   compareNumberValue(
     dataList: Data[],
     value: number | string,
@@ -49,34 +49,126 @@ class FilterUtils {
 }
 
 class FilterPrice extends FilterUtils implements FilterEvent {
-  concrete(value: number | string, amoung: Statue, dataList: Data[]) {
-    this.checkIfNumber(value, dataList);
-
-    return this.compareNumberValue(dataList, value, amoung, "price");
+  concrete(
+    value: string | number | string[],
+    amoung: Statue,
+    dataList: Data[]
+  ) {
+    if (isNumber(value)) {
+      return this.compareNumberValue(dataList, value, amoung, "price");
+    }
+    return dataList;
   }
 }
 
 class FilterChange extends FilterUtils implements FilterEvent {
-  concrete(value: string | number, amoung: Statue, dataList: Data[]) {
-    this.checkIfNumber(value, dataList);
-
-    return this.compareNumberValue(dataList, value, amoung, "CHG");
+  concrete(
+    value: string | number | string[],
+    amoung: Statue,
+    dataList: Data[]
+  ) {
+    if (isNumber(value)) {
+      return this.compareNumberValue(dataList, value, amoung, "CHG");
+    }
+    if (isString(value)) {
+      return dataList;
+    }
   }
 }
 
 class FilterChangePercent extends FilterUtils implements FilterEvent {
-  concrete(value: string | number, amoung: Statue, dataList: Data[]) {
-    this.checkIfNumber(value, dataList);
-
-    return this.compareNumberValue(dataList, value, amoung, "CHG%");
+  concrete(
+    value: string | number | string[],
+    amoung: Statue,
+    dataList: Data[]
+  ) {
+    if (isNumber(value)) {
+      return this.compareNumberValue(dataList, value, amoung, "CHG%");
+    }
+    return dataList;
   }
 }
 
 class FilterPE extends FilterUtils implements FilterEvent {
-  concrete(value: string | number, amoung: Statue, dataList: Data[]) {
-    this.checkIfNumber(value, dataList);
+  concrete(
+    value: string | number | string[],
+    amoung: Statue,
+    dataList: Data[]
+  ) {
+    if (isNumber(value)) {
+      return this.compareNumberValue(dataList, value, amoung, "P/E%");
+    }
+    return dataList;
+  }
+}
 
-    return this.compareNumberValue(dataList, value, amoung, "P/E%");
+class Sector extends FilterUtils implements FilterEvent {
+  concrete(
+    value: string | number | string[],
+    amoung: Statue,
+    dataList: Data[]
+  ): Data[] {
+    if (isArrayOfStrings(value)) {
+      const stringifiedValue = value.join(" , ");
+
+      if (stringifiedValue.includes("Any")) {
+        return dataList;
+      } else {
+        const result = dataList.filter(function (f: Data) {
+          return stringifiedValue.search(f.SECTOR) !== -1;
+        });
+
+        return result;
+      }
+    }
+    return dataList;
+  }
+}
+
+class TechnicalRating extends FilterUtils implements FilterEvent {
+  concrete(
+    value: string | number | string[],
+    amoung: Statue,
+    dataList: Data[]
+  ): Data[] {
+    if (isArrayOfStrings(value)) {
+      const stringifiedValue = value.join(" , ");
+
+      if (stringifiedValue.includes("Any")) {
+        return dataList;
+      } else {
+        if (dataList) {
+          const result = dataList.filter(function (f: Data) {
+            if (stringifiedValue.includes("Any")) {
+              return f;
+            }
+            return stringifiedValue.includes(f.TECHNICAL_RATING);
+          });
+
+          return result;
+        }
+      }
+    }
+  }
+}
+
+class Volume extends FilterUtils implements FilterEvent {
+  concrete(
+    value: string | number | string[],
+    amoung: Statue,
+    dataList: Data[]
+  ): Data[] {
+    if (isObject(value)) {
+      const { min, max }: { min: number; max: number } = value;
+      if (dataList) {
+        const result = dataList.filter(function (f: Data) {
+          return min < f.VOLUME && f.VOLUME < max;
+        });
+
+        return result;
+      }
+    }
+    return dataList;
   }
 }
 
@@ -86,20 +178,30 @@ export class ConcreteFilterEvents implements ConcreteFilter {
   _filterChange: FilterChange;
   _filterChangePercent: FilterChangePercent;
   _filterPE: FilterPE;
+  _sector: Sector;
+  _technicalRating: TechnicalRating;
+  _volume: Volume;
 
   constructor(data: Data[]) {
     this._filterPrice = new FilterPrice();
     this._filterChange = new FilterChange();
     this._filterChangePercent = new FilterChangePercent();
     this._filterPE = new FilterPE();
+    this._sector = new Sector();
+    this._technicalRating = new TechnicalRating();
+    this._volume = new Volume();
     this.data = data;
   }
 
   distributeEvents(
     filterName: string,
-    value: string,
-    amoung: Statue
+    value: string | number | string[],
+    amoung: Statue,
+    getNewData: Function
   ): void | Data[] {
+    if (this.data === undefined || !this.data) {
+      getNewData();
+    }
     if (filterName === "filterPrice") {
       const data = this._filterPrice.concrete(value, amoung, this.data);
       this.data = data;
@@ -112,6 +214,15 @@ export class ConcreteFilterEvents implements ConcreteFilter {
     }
     if (filterName === "filterPE") {
       this.data = this._filterPE.concrete(value, amoung, this.data);
+    }
+    if (filterName === "filterSector") {
+      this.data = this._sector.concrete(value, null, this.data);
+    }
+    if (filterName === "filterTechnicalRating") {
+      this.data = this._technicalRating.concrete(value, null, this.data);
+    }
+    if (filterName === "filterVolume") {
+      this.data = this._volume.concrete(value, null, this.data);
     }
   }
 

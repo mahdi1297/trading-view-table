@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react'
+import { useEffect, useRef } from 'react'
 import classNames from 'classnames'
 import { CiSearch } from 'react-icons/ci'
 import { IoCloseOutline } from 'react-icons/io5'
@@ -22,7 +22,7 @@ const ToolbarFilterModal = ({ visible, hideModalHandler }: Props) => {
         }
     }, [visible]);
 
-    function handleClickOutside(e: Event | any) {
+    function handleClickOutside(e: any) {
         if (modalRef?.current && !modalRef.current.contains(e.target)) {
             hideModalHandler();
         }

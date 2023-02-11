@@ -49,6 +49,12 @@ tr {
 
 tbody tr {
     padding: 7px 20px;
+    border-bottom: 1px solid $gray-border-color;
+    cursor: pointer;
+
+    &:hover {
+        background-color: #bbd9fb;
+    }
 }
 
 tr th {
@@ -87,7 +93,6 @@ tbody td {
     width: 130px;
     min-width: 130px;
     text-align: center;
-    border-bottom: 1px solid $gray-border-color;
     font-size: 14px;
     display: flex;
 

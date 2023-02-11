@@ -1,12 +1,25 @@
-import { useState, useEffect } from 'react'
+import {
+    useState,
+    useEffect
+} from 'react'
 import SelectComponent from '../../select'
 import TitleComponent from '../../title'
 import { amoungSortList } from '../../../models/amoung-sort'
 import { priceSortList } from '../../../models/price-sort-list'
-import { useDispatch, useSelector } from 'react-redux'
-import { AppDispatch, RootState } from '../../../store'
-import { addFilterhList, Filter } from '../../../slices/data.slice'
-import { fetchDataAction } from '../../../slices/actions'
+import {
+    useDispatch,
+    useSelector
+} from 'react-redux'
+import {
+    AppDispatch,
+    RootState
+} from '../../../store'
+import {
+    addFilterhList,
+    Filter,
+    load,
+    stopLoad
+} from '../../../slices/data.slice'
 
 type Props = {
     componentSignature: string,
@@ -35,10 +48,10 @@ const ConditionalFilterComponent = ({ componentSignature, componentTitle }: Prop
 
     const applyFilterData = () => {
         if (filters.length) {
-
             // If filter of this componentSignature exists in filterList array
             // sets the default values to first and seccond dropdown, and the input
             const exists = filters.find((s: Filter) => s.filterName === componentSignature);
+
             if (exists) {
                 setOperatorValue(() => exists.amoung || 'Below');
                 setFunctionFilterValue(() => typeof exists.value !== 'number' ? exists.value : 'Value');
@@ -48,8 +61,11 @@ const ConditionalFilterComponent = ({ componentSignature, componentTitle }: Prop
     }
 
     const dispatchAddFilter = (filter: Filter) => {
+        dispatch(load())
         dispatch(addFilterhList(filter))
+        setTimeout(() => dispatch(stopLoad()), 200)
     }
+
 
     // Checks if the componentSignature filter exists in filterList array
     const checkIfFilterExists = () => {
@@ -66,8 +82,6 @@ const ConditionalFilterComponent = ({ componentSignature, componentTitle }: Prop
     // Operator value(first dropdown) click handler
     const setOperatorValueHandler = (value: string) => {
         setOperatorValue(value)
-
-
         const existsComponentSignatureInFilter = checkIfFilterExists();
 
         // If the componentSignature filter exists, dispatch the filter by selecting
@@ -86,12 +100,6 @@ const ConditionalFilterComponent = ({ componentSignature, componentTitle }: Prop
 
     // Function value(seccond dropdown) click handler
     const setFunctionFilterValueHandler = (value: string) => {
-        // If value was not number(means the input is empty), so it
-        // fetchs the fresh data
-        if (value === "" || value === "Value") {
-            dispatch(fetchDataAction());
-        }
-
         setFunctionFilterValue(value);
 
         const filter = {
@@ -108,7 +116,6 @@ const ConditionalFilterComponent = ({ componentSignature, componentTitle }: Prop
         // fetchs the fresh data
         if (value === "" || value === "Value") {
             setSearchFieldValue(null);
-            dispatch(fetchDataAction());
         }
         else {
             setSearchFieldValue(() => value);

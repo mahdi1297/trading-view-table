@@ -8,7 +8,6 @@ const ToolbarFilterModal = lazy(() => import('./toolbar-filter'));
 const ToolbarComponent = () => {
     const [showFilterModal, setShowFilterModal] = useState(false);
 
-
     const showFilterModalHandler = () => {
         setShowFilterModal(true)
     }

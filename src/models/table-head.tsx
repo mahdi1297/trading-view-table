@@ -1,41 +1,75 @@
 import ConditionalFilterComponent from '../components/data-table-head/filters/conditional-filter';
-import EmpeloyeeFilterFilterComponent from '../components/data-table-head/filters/empeloyee-filter';
-import MarketCapitalizationFilterComponent from '../components/data-table-head/filters/market-capitalization-filter';
-import SectorRatingFilterComponent from '../components/data-table-head/filters/sector-filter';
+import RangeNumberComponent from '../components/data-table-head/filters/range-number-filter';
 import SelectiveFilterComponent from '../components/data-table-head/filters/selective-filter';
-import VolumeFilterComponent from '../components/data-table-head/filters/volume-filter';
-import VolumeInPriceFilterComponent from '../components/data-table-head/filters/volume-in-price-filter';
-import { CHANGE, CHANGE_PERCENT, PRICE_TO_EARNING_RATIO, SECTOR, TECHNICAL_RATING } from '../constaints';
-import { sortChange, sortChangePercent, sortEmployees, sortMarketCap, sortPE, sortPrice, sortSector, sortTechnicalRating, sortVolume, sortVolumeInPrice } from '../slices/data.slice';
 import { TableHead } from "../types/table-head";
 import { sectorSortFilters } from './sector-filter-sort-list';
 import { technicalRateFilters } from './technical-rating-list';
+import {
+  CHANGE,
+  CHANGE_PERCENT,
+  EMPLOYEE,
+  EMPLOYEE_RANGE_SLIDER_MAX_VALUE,
+  EMPLOYEE_RANGE_SLIDER_MIN_VALUE,
+  MARKET_CAPITALIZATION,
+  MARKET_KAP_RANGE_SLIDER_MAX_VALUE,
+  MARKET_KAP_RANGE_SLIDER_MIN_VALUE,
+  PRICE_IN_VOLUME_RANGE_SLIDER_MIN_VALUE,
+  PRICE_IN_VOLUME_SLIDER_MAX_VALUE,
+  PRICE_TO_EARNING_RATIO,
+  SECTOR,
+  TECHNICAL_RATING,
+  VOLUME,
+  VOLUME_IN_PRICE,
+  VOLUME_RANGE_SLIDER_MAX_VALUE,
+  VOLUME_RANGE_SLIDER_MIN_VALUE
+} from '../constaints';
+import {
+  sortChange,
+  sortChangePercent,
+  sortEmployees,
+  sortMarketCap,
+  sortPE,
+  sortPrice,
+  sortSector,
+  sortTechnicalRating,
+  sortVolume,
+  sortVolumeInPrice
+} from '../slices/data.slice';
+
 
 export const tableHeads: TableHead[] = [
   {
     id: 1,
     title: "TICKERS",
-    children: <input type="text" className='filter-input' />,
   },
 
   {
     id: 2,
     title: "Price",
-    component: () => <ConditionalFilterComponent componentSignature="filterPrice" componentTitle="Price" />,
+    component: () => <ConditionalFilterComponent
+      componentSignature="filterPrice"
+      componentTitle="Price"
+    />,
     sorterFunction: sortPrice
   },
 
   {
     id: 3,
     title: "CHG",
-    component: () => <ConditionalFilterComponent componentSignature="filterChange" componentTitle={CHANGE} />,
+    component: () => <ConditionalFilterComponent
+      componentSignature="filterChange"
+      componentTitle={CHANGE}
+    />,
     sorterFunction: sortChange
   },
 
   {
     id: 4,
     title: "CHG%",
-    component: () => <ConditionalFilterComponent componentSignature="filterChangePercent" componentTitle={CHANGE_PERCENT} />,
+    component: () => <ConditionalFilterComponent
+      componentSignature="filterChangePercent"
+      componentTitle={CHANGE_PERCENT}
+    />,
     sorterFunction: sortChangePercent
   },
   {
@@ -51,33 +85,56 @@ export const tableHeads: TableHead[] = [
   {
     id: 6,
     title: "VOL",
-    component: VolumeFilterComponent,
+    component: () => <RangeNumberComponent
+      RANGE_SLIDER_MIN_VALUE={VOLUME_RANGE_SLIDER_MIN_VALUE}
+      RANGE_SLIDER_MAX_VALUE={VOLUME_RANGE_SLIDER_MAX_VALUE}
+      componentSignature="filterVolume"
+      componentTitle={VOLUME}
+    />,
     sorterFunction: sortVolume
   },
   {
     id: 7,
     title: "MKT CAP",
-    component: MarketCapitalizationFilterComponent,
+    component: () => <RangeNumberComponent
+      RANGE_SLIDER_MIN_VALUE={MARKET_KAP_RANGE_SLIDER_MIN_VALUE}
+      RANGE_SLIDER_MAX_VALUE={MARKET_KAP_RANGE_SLIDER_MAX_VALUE}
+      componentSignature="filterMat_kap"
+      componentTitle={MARKET_CAPITALIZATION}
+    />,
     sorterFunction: sortMarketCap
   },
   {
     id: 8,
     title: "VOLUME*PRICE",
-    component: VolumeInPriceFilterComponent,
+    component: () => <RangeNumberComponent
+      componentSignature="filterValueInPrice"
+      RANGE_SLIDER_MIN_VALUE={PRICE_IN_VOLUME_RANGE_SLIDER_MIN_VALUE}
+      RANGE_SLIDER_MAX_VALUE={PRICE_IN_VOLUME_SLIDER_MAX_VALUE}
+      componentTitle={VOLUME_IN_PRICE}
+    />,
     modalClassName: 'volume-in-price-filter-modal',
     sorterFunction: sortVolumeInPrice
   },
   {
     id: 10,
     title: "P/E",
-    component: () => <ConditionalFilterComponent componentSignature="filterPE" componentTitle={PRICE_TO_EARNING_RATIO} />,
+    component: () => <ConditionalFilterComponent
+      componentSignature="filterPE"
+      componentTitle={PRICE_TO_EARNING_RATIO}
+    />,
     modalClassName: 'p-e-filter-modal',
     sorterFunction: sortPE
   },
   {
     id: 11,
     title: "EMPLOYEES",
-    component: EmpeloyeeFilterFilterComponent,
+    component: () => <RangeNumberComponent
+      componentSignature="filterEmployees"
+      RANGE_SLIDER_MIN_VALUE={EMPLOYEE_RANGE_SLIDER_MIN_VALUE}
+      RANGE_SLIDER_MAX_VALUE={EMPLOYEE_RANGE_SLIDER_MAX_VALUE}
+      componentTitle={EMPLOYEE}
+    />,
     modalClassName: 'empeloyees-filter-modal',
     sorterFunction: sortEmployees
   },

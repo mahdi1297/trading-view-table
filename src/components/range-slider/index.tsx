@@ -4,11 +4,13 @@ import {
     useCallback,
     useEffect,
     useState,
-    useRef
+    useRef,
+    useMemo
 } from "react";
 import classnames from "classnames";
 import { convertToString } from "../../utils/convert-to-string";
 import { numberFormatter } from "../../utils/number-formatter";
+import { debounce } from "../../utils/debounce";
 
 interface Props {
     min: number;
@@ -67,6 +69,23 @@ const RangeSliderComponent: FC<Props> = ({
     const formattedMinNumber = numberFormatter(convertToString(minVal), 0)
     const formattedMaxNumber = numberFormatter(convertToString(maxVal), 0)
 
+    const handleMinVal = useMemo(() =>
+        debounce((event: ChangeEvent<HTMLInputElement>) => {
+            const value = Math.min(+event.target.value, maxVal - 1);
+            setMinVal(value);
+            event.target.value = value.toString();
+        }, 1000),
+        []);
+
+    const handleMsxVal = useMemo(() =>
+        debounce((event: ChangeEvent<HTMLInputElement>) => {
+            const value = Math.max(+event.target.value, minVal + 1);
+            setMaxVal(value);
+            event.target.value = value.toString();
+        }, 1000),
+        []);
+
+
     return (
         <div className="containers">
             <input
@@ -76,9 +95,7 @@ const RangeSliderComponent: FC<Props> = ({
                 defaultValue={minVal ? minVal : 0}
                 ref={minValRef}
                 onChange={(event: ChangeEvent<HTMLInputElement>) => {
-                    const value = Math.min(+event.target.value, maxVal - 1);
-                    setMinVal(value);
-                    event.target.value = value.toString();
+                    handleMinVal(event)
                 }}
                 className={classnames("thumb thumb--zindex-3", {
                     "thumb--zindex-5": minVal > max - 100
@@ -91,9 +108,7 @@ const RangeSliderComponent: FC<Props> = ({
                 defaultValue={maxVal ? maxVal : 100}
                 ref={maxValRef}
                 onChange={(event: ChangeEvent<HTMLInputElement>) => {
-                    const value = Math.max(+event.target.value, minVal + 1);
-                    setMaxVal(value);
-                    event.target.value = value.toString();
+                    handleMsxVal(event)
                 }}
                 className="thumb thumb--zindex-4"
             />

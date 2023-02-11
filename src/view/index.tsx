@@ -86,8 +86,6 @@ const HomeView = () => {
         dispatch(fetchDataAction());
     }
 
-    // console.log(filters)
-
     return (
         <>
             {dataCtx.isLoading && <SpinnerLoaderComponent />}

@@ -1,6 +1,5 @@
 import {
     useEffect,
-    useState
 } from 'react'
 import {
     useDispatch,
@@ -9,7 +8,6 @@ import {
 import DataTableHeadComponent from '../components/data-table-head'
 import DataTableBodyComponent from '../components/data-table-body'
 import DataTableComponent from '../components/data-table'
-import SortContextProvider from '../context/sort.context'
 import SpinnerLoaderComponent from '../components/spinner-loader'
 import ToolbarComponent from '../components/toolbar'
 import {
@@ -74,6 +72,7 @@ const HomeView = () => {
         }
 
     }
+
     useEffect(() => {
         applyFilters(filters);
     }, [filters])
@@ -89,13 +88,11 @@ const HomeView = () => {
     return (
         <>
             {dataCtx.isLoading && <SpinnerLoaderComponent />}
-            <SortContextProvider>
-                <ToolbarComponent />
-                <DataTableComponent  >
-                    <DataTableHeadComponent />
-                    <DataTableBodyComponent data={dataCtx.dataList} />
-                </DataTableComponent>
-            </SortContextProvider>
+            <ToolbarComponent />
+            <DataTableComponent  >
+                <DataTableHeadComponent />
+                <DataTableBodyComponent data={dataCtx.dataList} />
+            </DataTableComponent>
         </>
     )
 }
